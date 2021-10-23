@@ -1,0 +1,22 @@
+# Ignore modules installed with npm.
+node_modules/
+bower_components/
+.npm
+
+# Ignore environment variables files.
+.env
+
+# Ignore MacOS-generated files.
+.DS_Store
+
+# Ignore log files.
+logs/
+*.log
+npm-debug.log*
+.eslintcache
+
+# Ignore database files
+*.sql
+*.sql.zip
+*.sql.tar
+*.sql.tar.gz
