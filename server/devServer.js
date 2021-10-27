@@ -7,8 +7,10 @@ const open = require('open');
 const port = 3001;
 const compiler = webpack(config);
 
+// create http server
 const httpserver = require('http').createServer(server);
-const socket = require('socket.io')(httpserver);
+// express instance passed into new socket.io instance
+const socketio = require('socket.io')(httpserver);
 
 
 server.use(require('webpack-dev-middleware')(compiler, {
@@ -19,15 +21,22 @@ server.get('/', (req, res) => {
   res.sendFile(join(__dirname, '../client/src/index.html'));
 });
 
+// changed from server.listen to httpserver.listen
 httpserver.listen(port, (err) => {
   if (err) {
     console.log(err);
   } else {
-    console.log("Server is running port: " + port);
+    console.log("Server is running port: " + port); // maybe unnecessary
     open('http://localhost:' + port);
   }
 });
 
-socket.on("connection", (socket) => {
+// connect listener
+socketio.on("connection", (socket) => {
   console.log("Client connection successful!");
+
+// disconnect listener
+  socket.on('disconnect', function() {
+    console.log('Client now disconnected.');
+  });
 });
