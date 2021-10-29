@@ -26,7 +26,7 @@ httpserver.listen(port, (err) => {
   if (err) {
     console.log(err);
   } else {
-    console.log("Server is running port: " + port); // maybe unnecessary
+    console.log("Server is running port: " + port); // unnecessary
     open('http://localhost:' + port);
   }
 });
@@ -34,6 +34,11 @@ httpserver.listen(port, (err) => {
 // connect listener
 socketio.on("connection", (socket) => {
   console.log("Client connection successful!");
+  //socket.emit("chat-message", 'Testing');
+  socket.on('share-msg', message => {
+    console.log(message);
+  socket.broadcast.emit('msg', message);
+  });
 
 // disconnect listener
   socket.on('disconnect', function() {
