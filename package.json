@@ -1,0 +1,55 @@
+{
+  "name": "cosc-625",
+  "version": "1.0.0",
+  "description": "Multiplayer Solitaire",
+  "main": "./client/src/index.js",
+  "scripts": {
+    "start": "babel-node server/devServer.js",
+    "lint": "eslint ./client",
+    "clean-dist": "rimraf ./client/dist && mkdir ./client/dist",
+    "prebuild": "npm-run-all clean-dist lint",
+    "build": "babel-node server/build.js",
+    "postbuild": "babel-node server/distServer.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/COSC-625/cosc-625.git"
+  },
+  "author": "Bradley Rosenstein, Greg Holden, Laura O",
+  "license": "GPL V3.0",
+  "bugs": {
+    "url": "https://github.com/COSC-625/cosc-625/issues"
+  },
+  "homepage": "https://github.com/COSC-625/cosc-625#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "normalize.css": "^8.0.1",
+    "socket.io": "^4.3.1",
+    "socket.io-client": "^4.3.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/node": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/register": "^7.15.3",
+    "babel-loader": "^8.2.3",
+    "chalk": "^4.1.2",
+    "compression": "^1.7.4",
+    "css-loader": "^6.4.0",
+    "eslint": "^8.1.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.4.0",
+    "mini-css-extract-plugin": "^2.4.3",
+    "npm-run-all": "^4.1.5",
+    "open": "^8.3.0",
+    "rimraf": "^3.0.2",
+    "sass": "^1.43.3",
+    "sass-loader": "^12.2.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.59.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.3.1"
+  }
+}
