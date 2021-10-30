@@ -14,7 +14,9 @@ export default {
       template: './client/src/index.html',
       inject: true
     }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({
+      filename: "style.css"
+    })
   ],
   module: {
     rules: [
@@ -27,22 +29,22 @@ export default {
         }
       },
       {
-        test: /\.[s]css$/,
-        use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader', 'sass-loader'],
+        test: /\.s[ac]ss$/i,
+        use: [MiniCssExtractPlugin.loader,
+              'css-loader',
+              'sass-loader'
+        ]
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          outputPath: 'images',
-          name: '[name]-[contenthash].[ext]'
-        }
+        test: /\.(?:ico|png|jpeg|jpg|gif)$/i,
+        type: 'asset/resource'
       }
     ]
   },
   output: {
     path: resolve(__dirname, './client/dist/'),
-    publicPath: '/',
-    filename: 'bundle.js'
+    publicPath: './',
+    filename: 'bundle.js',
+    assetModuleFilename: 'images/[name][ext][query]'
   }
 }

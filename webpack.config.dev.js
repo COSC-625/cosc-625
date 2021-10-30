@@ -1,9 +1,12 @@
+import { resolve } from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { resolve } from 'path';
+const webpack = require('webpack');
+
 
 export default {
   entry: [
+    'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
     resolve(__dirname, './client/src/index.js')
   ],
   mode: 'development',
@@ -14,7 +17,9 @@ export default {
       template: './client/src/index.html',
       inject: true
     }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
   ],
   module: {
     rules: [
@@ -27,22 +32,22 @@ export default {
         }
       },
       {
-        test: /\.[s]css$/,
-        use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader', 'sass-loader'],
+        test: /\.s[ac]ss$/i,
+        use: [MiniCssExtractPlugin.loader,
+              'css-loader',
+              'sass-loader'
+        ]
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          outputPath: 'images',
-          name: '[name]-[contenthash].[ext]'
-        }
+        test: /\.(?:ico|png|jpeg|jpg|gif)$/i,
+        type: 'asset/resource'
       }
     ]
   },
   output: {
     path: resolve(__dirname, './client/dist/'),
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    assetModuleFilename: 'images/[name][ext][query]'
   }
 }

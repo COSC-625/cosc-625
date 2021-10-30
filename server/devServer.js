@@ -17,8 +17,12 @@ server.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath
 }));
 
+server.use(require('webpack-hot-middleware')(compiler, {
+  reload: true
+}));
+
 server.get('/', (req, res) => {
-  res.sendFile(join(__dirname, '../client/src/index.html'));
+  res.sendFile(join(__dirname, '../client/dist/index.html'));
 });
 
 // changed from server.listen to httpserver.listen
