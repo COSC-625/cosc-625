@@ -23,6 +23,10 @@ socketio.on('msg', data => {
   sendMessage(`${data.username}: ${data.message}`);
 });
 
+socketio.on('disconnected', name => {
+  sendMessage(`${username}` + ' has left the chat.')
+});
+
 form.addEventListener('submit', e => {
   e.preventDefault(); //clicking send will not reload page
   const message = input.value;

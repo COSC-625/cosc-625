@@ -53,5 +53,7 @@ socketio.on("connection", (socket) => {
 // disconnect listener
   socket.on('disconnect', function() {
     console.log('Client now disconnected.');
+    delete users[socket.id];
+    socket.broadcast.emit('disconnected', users[socket.id]);
   });
 });
