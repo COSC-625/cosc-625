@@ -9,18 +9,18 @@ const input = document.getElementById('input');
 const username = prompt('Please Enter Name: ');
 
 //add message after entering chat
-sendMessage('Welcome, ' + `${username}` + '! You are now in the chat.');
+sendMessage('Welcome to the chat, ' + `${username}` + '!');
 
 socketio.emit('joined-user', username);
+
+socketio.on('joined', username => {
+  sendMessage(`${username} has entered the chat.`);
+});
 
 socketio.on('msg', data => {
   //console.log(data);
   //call function to display username and message
   sendMessage(`${data.username}: ${data.message}`);
-});
-
-socketio.on('joined', username => {
-  sendMessage(`${username} connected`);
 });
 
 form.addEventListener('submit', e => {
