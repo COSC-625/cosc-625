@@ -1,0 +1,38 @@
+<script type="application/json" id="rules">
+{
+    "Name":"Eight Off",
+    "Wikipedia":"https://en.wikipedia.org/wiki/Eight_Off",
+    "Winnable":[198382,334188,866871],
+    "Stock":{"packs":1, "hidden":1},        
+    "Foundation":{"suit":2, "rank":1, "scatter":"Left", "accept":1},
+    "Tableau":{"build":{"suit":2, "rank":2}, "move":{"suit":2, "rank":2}, "accept":13}
+}
+</script>    
+
+<svg id="baize" xmlns="http://www.w3.org/2000/svg">
+    <g class="Cell" deal="u"><rect x="0" y="0"></rect></g>
+    <g class="Cell" deal="u"><rect x="1" y="0"></rect></g>
+    <g class="Cell" deal="u"><rect x="2" y="0"></rect></g>
+    <g class="Cell" deal="u"><rect x="3" y="0"></rect></g>
+    <g class="Cell"><rect x="4" y="0"></rect></g>
+    <g class="Cell"><rect x="5" y="0"></rect></g>
+    <g class="Cell"><rect x="6" y="0"></rect></g>
+    <g class="Cell"><rect x="7" y="0"></rect></g>
+
+    <g class="Tableau" deal="uuuuuu"><rect x="0" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuuu"><rect x="1" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuuu"><rect x="2" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuuu"><rect x="3" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuuu"><rect x="4" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuuu"><rect x="5" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuuu"><rect x="6" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuuu"><rect x="7" y="1"></rect></g>
+
+    <g class="Foundation"><rect x="9" y="0"></rect></g>
+    <g class="Foundation"><rect x="9" y="1"></rect></g>
+    <g class="Foundation"><rect x="9" y="2"></rect></g>
+    <g class="Foundation"><rect x="9" y="3"></rect></g>
+
+    <g class="Stock" packs="1">
+        <rect x="1" y="-1"></rect>
+    </g>

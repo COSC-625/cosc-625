@@ -1,0 +1,46 @@
+<script type="application/json" id="rules">
+{
+  "Name":"Brigade",
+  "Wikipedia":"https://en.wikipedia.org/wiki/Flower_Garden_(solitaire)",
+  "Winnable":[271521],
+  "Stock":{"packs":1, "hidden":1},
+  "Foundation":{"suit":2, "rank":1},
+  "Tableau":{"build":{"suit":1, "rank":2}, "move":{"suit":1, "rank":2}}
+}
+</script>
+  
+<svg id="baize" xmlns="http://www.w3.org/2000/svg">
+
+    <g class="Foundation" deal="♥01"><rect x="3" y="0"></rect></g>
+    <g class="Foundation" deal="♦01"><rect x="4" y="0"></rect></g>
+    <g class="Foundation" deal="♣01"><rect x="5" y="0"></rect></g>
+    <g class="Foundation" deal="♠01"><rect x="6" y="0"></rect></g>
+
+    <g class="Tableau" deal="uuuuu"><rect x= "10" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuu"><rect x= "77" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuu"><rect x="2" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuu"><rect x="3" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuu"><rect x="4" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuu"><rect x="5" y="1"></rect></g>
+    <g class="Tableau" deal="uuuuu"><rect x="6" y="1"></rect></g>
+
+    <g class="Reserve" deal="u"><rect x="8" y="0"></rect></g>
+    <g class="Reserve" deal="u"><rect x="8" y="1"></rect></g>
+    <g class="Reserve" deal="u"><rect x="8" y="2"></rect></g>
+    <g class="Reserve" deal="u"><rect x="8" y="3"></rect></g>
+    
+    <g class="Reserve" deal="u"><rect x="9" y="0"></rect></g>
+    <g class="Reserve" deal="u"><rect x="9" y="1"></rect></g>
+    <g class="Reserve" deal="u"><rect x="9" y="2"></rect></g>
+    <g class="Reserve" deal="u"><rect x="9" y="3"></rect></g>
+    
+    <g class="Reserve" deal="u"><rect x="10" y="0"></rect></g>
+    <g class="Reserve" deal="u"><rect x="10" y="1"></rect></g>
+    <g class="Reserve" deal="u"><rect x="10" y="2"></rect></g>
+    <g class="Reserve" deal="u"><rect x="10" y="3"></rect></g>
+
+    <g class="Reserve" deal="u"><rect x="9" y="4"></rect></g>
+
+    <g class="Stock">
+        <rect x="1" y="-1"></rect>
+    </g>
