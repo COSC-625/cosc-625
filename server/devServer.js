@@ -11,7 +11,7 @@ const compiler = webpack(config);
 const httpserver = require('http').createServer(server);
 // express instance passed into new socket.io instance
 const socketio = require('socket.io')(httpserver);
-
+const users = {};
 
 server.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath
@@ -39,9 +39,15 @@ httpserver.listen(port, (err) => {
 socketio.on("connection", (socket) => {
   console.log("Client connection successful!");
   //socket.emit("chat-message", 'Testing');
+  socket.on('joined-user', username => {
+    users[socket.id] = username;
+    socket.broadcast.emit('joined', username);
+  });
+
   socket.on('share-msg', message => {
     console.log(message);
-  socket.broadcast.emit('msg', message);
+    //send both username and message to the client
+    socket.broadcast.emit('msg', {message: message, username: users[socket.id]});
   });
 
 // disconnect listener
