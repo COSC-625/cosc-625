@@ -1,18 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Multiplayer Solitaire</title>
+    <link rel="stylesheet" href="./style.css">
+    <title>MultiPlayer Solitaire</title>
   </head>
   <body>
-    <div id="messagediv">
-      <form id="form">
-          <input type="text" id="input">
-          <button type="submit" id="submit">Send</button>
-          <br>
-          <a href="game.html">Play the game</a>
-      </form>
+    <div class='wrapper'>
+      <!-- Header -->
+      <div class='column header'>
+        <h1 class='title'>MultiPlayer Solitaire</h1>
+        <h2 class='subtitle'><em>Game Lobby</em></h2>
+      </div>
+
+      <!-- Left sidebar -->
+      <div class='column left'>
+        <a class='btn' href='/'>Login</a>
+        <a class='btn' href='/'>Play as Guest</a>
+      </div>
+
+      <!-- Main content area -->
+      <div class='column middle'>
+        <a class='btn' href='/'>Create a Game</a>
+        <a class='btn' href='/'>Join a Public Game</a>
+        <a class='btn' href='/'>Join a Private Game</a>
+      </div>
+
+      <!-- Right sidebar -->
+      <div class='column right'>
+        <div class='btn no-press'>Stats</div>
+        <div class='btn no-press'>Chat</div>
+        <div id="messagediv">
+          <form id="form">
+            <input type="text" id="input">
+            <button type="submit" id="submit">Send</button>
+
+            <br><br>
+
+            <a href="game.html">Play the game</a>
+            
+          </form>
+        </div>
+      </div>
+
     </div>
+
   </body>
 </html>

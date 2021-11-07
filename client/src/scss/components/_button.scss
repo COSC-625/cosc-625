@@ -1,0 +1,28 @@
+.btn {
+  background-color: $green-dark;
+  display: inline-block;
+  padding: 1.75em 1.5em;
+  margin: 1em .5em;
+  text-decoration: none;
+  color: $off-white;
+
+  &:hover {
+    background-color: $green-light;
+    color: $green-dark;
+    cursor: pointer;
+  }
+}
+
+.no-press {
+  background-color: $green-dark;
+  color: $off-white;
+  cursor: default;
+  width: 65%;
+    &:hover {
+      background-color: $green-dark;
+      color: $off-white;
+      cursor: default;
+    }
+  }
+
+

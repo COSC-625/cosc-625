@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  text-align: center;
+
+  & > * {
+    padding: 10px;
+    flex: 1 100%;
+  }
+}
+
+@media all and (min-width: 600px) {
+  .left, .right {
+    flex: 1 0 0;
+  }
+}
+
+@media all and (min-width: 800px) {
+  .middle { flex: 3 0px; }
+  .left { order: 1; }
+  .middle { order: 2; }
+  .right { order: 3; }
+}
