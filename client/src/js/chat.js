@@ -29,7 +29,7 @@ socketio.on('msg', data => {
   sendMessage(`${data.username}: ${data.message}`);
 });
 
-socketio.on('disconnected', name => {
+socketio.on('disconnected', username => {
   sendMessage(`${username}` + ' has left the chat.')
 });
 
