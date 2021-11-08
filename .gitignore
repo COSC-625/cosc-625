@@ -4,7 +4,7 @@ bower_components/
 .npm
 
 # Dist directory gets built fresh.
-client/dist/
+client/dist/*
 
 # Ignore environment variables files.
 .env
