@@ -1,28 +1,34 @@
+/////////////////////
+//   BASE CONFIG   //
+/////////////////////
 import { join } from 'path';
+import compression from 'compression';
 
 const express = require('express');
 const server = express();
 const open = require('open');
 const port = 3001;
-import compression from 'compression';
 
 server.use(compression());
 server.use(express.static('./client/dist'));
-
-// create http server
-const httpserver = require('http').createServer(server);
-// express instance passed into new socket.io instance
-const socketio = require('socket.io')(httpserver);
-const users = {};
 
 // Get routes to individual pages.
 server.get('/', (req, res) => {
   res.sendFile(join(__dirname, '../client/dist/index.html'));
 });
-
 server.get('/game', (req, res) => {
   res.sendFile(join(__dirname, './client/dist/game.html'));
 });
+
+
+//////////////////////
+//    NETWORKING    //
+//////////////////////
+// create http server
+const httpserver = require('http').createServer(server);
+// express instance passed into new socket.io instance
+const socketio = require('socket.io')(httpserver);
+const users = {};
 
 // changed from server.listen to httpserver.listen
 httpserver.listen(port, (err) => {
