@@ -7,7 +7,7 @@ import compression from 'compression';
 const express = require('express');
 const server = express();
 const open = require('open');
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 server.use(compression());
 server.use(express.static(join(__dirname, './client/dist')));
