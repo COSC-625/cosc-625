@@ -1,5 +1,5 @@
 /////////////////////
-//   BASE CONFIG   //
+//      SERVER     //
 /////////////////////
 import { join } from 'path';
 import compression from 'compression';

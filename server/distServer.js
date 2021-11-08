@@ -1,5 +1,5 @@
 /////////////////////
-//   BASE CONFIG   //
+//      SERVER     //
 /////////////////////
 import { join } from 'path';
 import compression from 'compression';
@@ -19,6 +19,7 @@ server.get('/', (req, res) => {
 server.get('/game', (req, res) => {
   res.sendFile(join(__dirname, './client/dist/game.html'));
 });
+
 
 //////////////////////
 //    NETWORKING    //
