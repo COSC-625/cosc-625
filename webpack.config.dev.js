@@ -13,11 +13,13 @@ export default {
   plugins: [
     new HtmlWebpackPlugin({
       template: './client/src/index.html',
-      inject: true
+      title: 'Home',
+      inject: 'body'
     }),
     new HtmlWebpackPlugin({
       template: './client/src/game.html',
-      inject: true,
+      inject: 'body',
+      title: 'MultiPlayer Solitaire',
       filename: 'game.html'
     }),
     new MiniCssExtractPlugin({
