@@ -1,11 +1,13 @@
-import webpack from 'webpack';
-import config from '../webpack.config.dev.js';
 import { join } from 'path';
 
-const server = require('express')();
+const express = require('express');
+const server = express();
 const open = require('open');
 const port = 3001;
-const compiler = webpack(config);
+import compression from 'compression';
+
+server.use(compression());
+server.use(express.static('./client/dist'));
 
 // create http server
 const httpserver = require('http').createServer(server);
@@ -13,16 +15,13 @@ const httpserver = require('http').createServer(server);
 const socketio = require('socket.io')(httpserver);
 const users = {};
 
-server.use(require('webpack-dev-middleware')(compiler, {
-  publicPath: config.output.publicPath
-}));
-
-server.use(require('webpack-hot-middleware')(compiler, {
-  reload: true
-}));
-
+// Get routes to individual pages.
 server.get('/', (req, res) => {
   res.sendFile(join(__dirname, '../client/dist/index.html'));
+});
+
+server.get('/game', (req, res) => {
+  res.sendFile(join(__dirname, './client/dist/game.html'));
 });
 
 // changed from server.listen to httpserver.listen

@@ -1,14 +1,12 @@
 import { resolve } from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-const webpack = require('webpack');
-
 
 export default {
-  entry: [
-    'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
-    resolve(__dirname, './client/src/index.js')
-  ],
+  entry: {
+    index: resolve(__dirname, './client/src/index.js'),
+    game: resolve(__dirname, './client/src/game.js')
+  },
   mode: 'development',
   devtool: 'inline-source-map',
   target: 'web',
@@ -17,9 +15,14 @@ export default {
       template: './client/src/index.html',
       inject: true
     }),
-    new MiniCssExtractPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new HtmlWebpackPlugin({
+      template: './client/src/game.html',
+      inject: true,
+      filename: 'game.html'
+    }),
+    new MiniCssExtractPlugin({
+      filename: "style.css"
+    })
   ],
   module: {
     rules: [
@@ -45,9 +48,14 @@ export default {
     ]
   },
   output: {
-    path: resolve(__dirname, './client/dist/'),
-    publicPath: '/',
-    filename: 'bundle.js',
+    path: resolve(__dirname, './client/dist'),
+    publicPath: './',
+    filename: '[name].bundle.js',
     assetModuleFilename: 'images/[name][ext][query]'
+  },
+  optimization: {
+    splitChunks: {
+      chunks: "all"
+    }
   }
 }

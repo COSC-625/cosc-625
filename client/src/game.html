@@ -1,142 +1,314 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-	<meta charset=utf-8 />
-	<!--<meta name="viewport" content="width=1024,height=768" />-->
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-	<meta name="Keywords" lang="fr" content="solitaire,klondike,warpklondike,solitairehd,javascript,js,warpdesign,css3,transitions,html5,webkit,mozilla,iphone,ipad" />
-	<meta name="Author" lang="fr" content="Nicolas Ramz" />
- 
-	<meta name="Identifier-URL" content="https://www.warpdesign.fr/" /> 
-	<meta name="Publisher" content="WarpDesign" /> 
-	<meta name="Copyright" content="(c) 2008 Nicolas Ramz" />
-	<meta name="description" content="HTML5/CSS3 card game playable from iPad or your desktop browser" />
- 
-	<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" /> 
-	
-	<title>Solitaire HD by Warpdesign</title>
-	
-	<link rel="stylesheet" href="css/main.css" type="text/css" />
-	<link rel="stylesheet" href="css/jquery.gritter.css" type="text/css" />
-	<link rel="stylesheet" href="css/transitions.css" type="text/css" />
+<!DOCTYPE html>
+<html lang='en-US'>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://bfa.github.io/solitaire-js/css/bootstrap.min.css">
+  </head>
+  <body>
+  <div class="container">
 
-	<script src="https://code.jquery.com/pep/0.3.0/pep.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
-	<script type="text/javascript" src="js/jquery.gritter.min.js"></script>
-	<script type="text/javascript" src="js/Lawnchair.js"></script>
-	<script type="text/javascript" src="js/adaptors/LawnchairAdaptorHelpers.js"></script>
-	<script type="text/javascript" src="js/adaptors/DOMStorageAdaptor.js"></script>
+    <div id="score">
+      <div class="timer">
+        <button id="play-pause">
+          <i id="play">Play</i>
+          <i id="pause">Pause</i>
+        </button>
+        <label>Timer:</label>
+        <span>00:00</span>
+      </div>
+      <div class="move-count" data-moves="0">
+        <label>Moves:</label>
+        <span>0</span>
+      </div>
+      <div class="score" data-score="0">
+        <label>Score:</label>
+        <span>0</span>
+      </div>
+    </div>
 
-	<script type="text/javascript" src="js/Console.js"></script>
-	<script type="text/javascript" src="js/ConfigurationManager.js"></script>
-	
-	<!-- DB stuff -->
-	<script type="text/javascript" src="js/DBManager.js"></script>
-	<!-- /DB stuff -->
+    <div id="table">
 
-	<script type="text/javascript" src="js/SoundManager.js"></script>
-	<script type="text/javascript" src="js/TimerManager.js"></script>
-	<script type="text/javascript" src="js/EventsManager.js"></script>
-	<script type="text/javascript" src="js/Card.js"></script>
-	<script type="text/javascript" src="js/Deck.js"></script>
-	<script type="text/javascript" src="js/Misc.js"></script>
-	<script type="text/javascript" src="js/Particles.js"></script>
-	<script type="text/javascript" src="js/game.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			WarpKlondikeMain.init();
-			$('.github-fork-ribbon-wrapper').bind('touchstart', function() {
-				document.location.href = $(this).find('a').attr('href');
-			});	
-		});
-	</script>
-	<link href='https://fonts.googleapis.com/css?family=La+Belle+Aurore&v1' rel='stylesheet' type='text/css'>
-</head>
-<body class="hd" touch-action="none">
-	<div class="github-fork-ribbon-wrapper left-bottom"><div class="github-fork-ribbon"><a href="https://github.com/warpdesign/solitaire-js">Fork me on GitHub</a></div></div>
-	<div class="description">
-	<h2>The HTML5/CSS3 card game</h2> 
-	<ul> 
-		<li>Optimized for sofa play on the iPad!</li> 
-		<li>CSS3-enhanced (degrades nicely on other browsers)</li> 
-		<li>Nice graphics</li> 
-	</ul> 
-	</div>
-	<div id="pause">
-		<p>Pause</p>
-	</div>
+      <div class="upper-row">
+        <div id="stock" class="stock pile" data-pile="stock">
+          <i class="reload-icon" data-action="reload">
+            <span></span>
+          </i>
+          <ul></ul>
+        </div>
 
-	<div id="playground" class="light">
-		<!-- overlay Pause element -->
-	</div>
+        <div id="waste" class="waste pile" data-pile="waste">
+          <ul></ul>
+        </div>
 
-	<form id="options" class="dialog">
-		<fieldset>
-			<!-- <div class="check" id="sound">sound</div> -->
-			<div class="check" id="autoFlip">autoFlip</div>
-			<div class="check" id="autoPlay">autoPlay</div>
-			<ul id="themeList">
-				<li>
-					<a href="#" class="themeSelect"><img src="css/themes/fantasy/preview.png" alt="fantasy" /></a><br />
-					Fantasy
-				</li>
-				
-				<li>
-					<a href="#" class="themeSelect"><img src="css/themes/jerico/preview.png" alt="jerico" /></a><br />
-					Jerico
-				</li>
-				
-			</ul>
-		<div class="ok"></div>
-		</fieldset>
-	</form>
+        <ul id="fnd" class="fnd">
+          <li id="spades" class="spades pile" data-pile="spades"
+            data-empty="true">
+            <ul></ul>
+          </li>
+          <li id="hearts" class="hearts pile" data-pile="hearts"
+            data-empty="true">
+            <ul></ul>
+          </li>
+          <li id="diamonds" class="diamonds pile" data-pile="diamonds"
+            data-empty="true">
+            <ul></ul>
+          </li>
+          <li id="clubs" class="clubs pile" data-pile="clubs" data-empty="true">
+            <ul></ul>
+          </li>
+        </ul>
+      </div>
 
-	<div id="scores" class="dialog">
-		<ul></ul>
-		<div class="ok"></div>
-	</div>
+      <div class="lower-row">
+        <ul id="tab" class="tab">
+          <li class="pile" data-pile="1">
+            <ul></ul>
+          </li>
+          <li class="pile" data-pile="2">
+            <ul></ul>
+          </li>
+          <li class="pile" data-pile="3">
+            <ul></ul>
+          </li>
+          <li class="pile" data-pile="4">
+            <ul></ul>
+          </li>
+          <li class="pile" data-pile="5">
+            <ul></ul>
+          </li>
+          <li class="pile" data-pile="6">
+            <ul></ul>
+          </li>
+          <li class="pile" data-pile="7">
+            <ul></ul>
+          </li>
+        </ul>
+      </div>
 
-	<div id="youWon" class="dialog">
-		<div class="contents">
-			<strong>Score: </strong><span class="score">328</span>
-			<p><u>Enter your name</u></p>
-			<input type="text" name="userName" id="userName" width="20" />
-			<br />
-			<div class="check checked" id="tweetScore">Tweet score</div>
-			<div style="margin-top:15px;" class="ok"></div>
-		</div>
-	</div>
+    </div>
 
-	<div id="statusPanel">
-		<div class="score">0 Points</div><div class="time">00 : 00</div><div class="startAgain">Restart</div><div class="undo">Undo</div>
-	</div>
+  </div><!-- /.container -->
 
-	<div id="optionsPanel">
-		<!-- <button class="icon home" id="gotoHome">Home</button> -->
-		<button class="icon options" id="menuToggle">Options</button>
-		<button class="icon scores" id="showScores">Scores</button>
-		<div style="position:absolute;width:214px;height:21px;z-index:2;right:0;top:4px;">
-			<a href="https://twitter.com/share" class="twitter-share-button" data-text="I enjoyed playing SolitaireHD, nice #HTML5 game by @warpdesign_ :) → " data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-			<iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.warpdesign.fr%2Fsolitairehd&amp;layout=button_count&amp;show_faces=true&amp;width=90&amp;action=like&amp;font=arial&amp;colorscheme=dark&amp;height=21" scrolling="no" frameborder="0" style="display:inline-block; border:none; overflow:hidden; width:90px; height:21px;"></iframe>
-		</div>
-	</div>
+  <button id="auto-win">Auto Win</button>
 
-	<div id="shadow"></div>
-	<div id="splash"><div class="content"></div></div>
-	<script type="text/javascript"> 
-			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-		</script> 
-			
-		<script type="text/javascript"> 
-			try 
-			{
-				var pageTracker = _gat._getTracker("UA-7328965-1");
-				pageTracker._trackPageview();
-			} 
-			catch(err) {}
-		</script> 
+  <canvas id="confetti"></canvas>
+
+  <ul class="template">
+    <li data-rank="2">
+      <div class="two {{suit}}">
+        <div class="corner top">
+          <span class="rank">2</span>
+          <span class="suit"></span>
+        </div>
+        <span class="suit top_center"></span>
+        <span class="suit bottom_center"></span>
+        <div class="corner bottom">
+          <span class="rank">2</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="3">
+      <div class="three {{suit}}">
+        <div class="corner top">
+          <span class="rank">3</span>
+          <span class="suit"></span>
+        </div>
+        <span class="suit top_center"></span>
+        <span class="suit middle_center"></span>
+        <span class="suit bottom_center"></span>
+        <div class="corner bottom">
+          <span class="rank">3</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="4">
+      <div class="four {{suit}}">
+        <div class="corner top">
+          <span class="rank">4</span>
+          <span class="suit"></span>
+        </div>
+        <span class="suit top_left"></span>
+        <span class="suit top_right"></span>
+        <span class="suit bottom_left"></span>
+        <span class="suit bottom_right"></span>
+        <div class="corner bottom">
+          <span class="rank">4</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="5">
+      <div class="five {{suit}}">
+        <div class="corner top">
+          <span class="rank">5</span>
+          <span class="suit"></span>
+        </div>
+        <span class="suit top_left"></span>
+        <span class="suit top_right"></span>
+        <span class="suit middle_center"></span>
+        <span class="suit bottom_left"></span>
+        <span class="suit bottom_right"></span>
+        <div class="corner bottom">
+          <span class="rank">5</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="6">
+      <div class="six {{suit}}">
+        <div class="corner top">
+          <span class="rank">6</span>
+          <span class="suit"></span>
+        </div>
+        <span class="suit top_left"></span>
+        <span class="suit top_right"></span>
+        <span class="suit middle_left"></span>
+        <span class="suit middle_right"></span>
+        <span class="suit bottom_left"></span>
+        <span class="suit bottom_right"></span>
+        <div class="corner bottom">
+          <span class="rank">6</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="7">
+      <div class="seven {{suit}}">
+        <div class="corner top">
+          <span class="rank">7</span>
+          <span class="suit"></span>
+        </div>
+        <span class="suit top_left"></span>
+        <span class="suit top_right"></span>
+        <span class="suit middle_left"></span>
+        <span class="suit middle_top"></span>
+        <span class="suit middle_right"></span>
+        <span class="suit bottom_left"></span>
+        <span class="suit bottom_right"></span>
+        <div class="corner bottom">
+          <span class="rank">7</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="8">
+      <div class="eight {{suit}}">
+        <div class="corner top">
+          <span class="rank">8</span>
+          <span class="suit"></span>
+        </div>
+        <span class="suit top_left"></span>
+        <span class="suit top_right"></span>
+        <span class="suit middle_left"></span>
+        <span class="suit middle_top_center"></span>
+        <span class="suit middle_right"></span>
+        <span class="suit middle_bottom_center"></span>
+        <span class="suit bottom_left"></span>
+        <span class="suit bottom_right"></span>
+        <div class="corner bottom">
+          <span class="rank">8</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="9">
+      <div class="nine {{suit}}">
+        <div class="corner top">
+          <span class="rank">9</span>
+          <span class="suit"></span>
+        </div>
+        <span class="suit top_left"></span>
+        <span class="suit top_right"></span>
+        <span class="suit middle_top_left"></span>
+        <span class="suit middle_center"></span>
+        <span class="suit middle_top_right"></span>
+        <span class="suit bottom_left"></span>
+        <span class="suit bottom_right"></span>
+        <span class="suit middle_bottom_left"></span>
+        <span class="suit middle_bottom_right"></span>
+        <div class="corner bottom">
+          <span class="rank">9</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="10">
+      <div class="ten {{suit}}">
+        <div class="corner top">
+          <span class="rank">10</span>
+          <span class="suit"></span>
+        </div>
+        <span class="suit top_left"></span>
+        <span class="suit top_right"></span>
+        <span class="suit middle_top_left"></span>
+        <span class="suit middle_top_center"></span>
+        <span class="suit middle_top_right"></span>
+        <span class="suit bottom_left"></span>
+        <span class="suit bottom_right"></span>
+        <span class="suit middle_bottom_center"></span>
+        <span class="suit middle_bottom_left"></span>
+        <span class="suit middle_bottom_right"></span>
+        <div class="corner bottom">
+          <span class="rank">10</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="J">
+      <div class="jack {{suit}}">
+        <div class="corner top">
+          <span class="rank">J</span>
+          <span class="suit"></span>
+        </div>
+        <span class="face middle_center"></span>
+        <div class="corner bottom">
+          <span class="rank">J</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="Q">
+      <div class="queen {{suit}}">
+        <div class="corner top">
+          <span class="rank">Q</span>
+          <span class="suit"></span>
+        </div>
+        <span class="face middle_center"></span>
+        <div class="corner bottom">
+          <span class="rank">Q</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="K">
+      <div class="king {{suit}}">
+        <div class="corner top">
+          <span class="rank">K</span>
+          <span class="suit"></span>
+        </div>
+        <span class="face middle_center"></span>
+        <div class="corner bottom">
+          <span class="rank">K</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+    <li data-rank="A">
+      <div class="ace {{suit}}">
+        <div class="corner top">
+          <span class="rank">A</span>
+          <span class="suit"></span>
+        </div>
+        <span class="suit middle_center"></span>
+        <div class="corner bottom">
+          <span class="rank">A</span>
+          <span class="suit"></span>
+        </div>
+      </div>
+    </li>
+  </ul><!-- /.templates -->
 </body>
 </html>
