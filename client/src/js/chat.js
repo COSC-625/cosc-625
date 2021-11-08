@@ -8,9 +8,9 @@ const form = document.getElementById('form');
 const input = document.getElementById('input');
 
 
-/////////////////////
-//   ASYNC CHAT    //
-/////////////////////
+///////////////
+//   CHAT    //
+///////////////
 // ask for name for chat
 const username = prompt('Please Enter Name: ');
 
