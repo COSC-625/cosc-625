@@ -7,10 +7,10 @@ import compression from 'compression';
 const express = require('express');
 const server = express();
 const open = require('open');
-const port = process.env.PORT || 3000;
+const port = 3000 || process.env.PORT;
 
 server.use(compression());
-server.use(express.static(join(__dirname, './client/dist')));
+server.use(express.static('./client/dist'));
 
 // Get routes to individual pages.
 server.get('/', (req, res) => {
