@@ -1,50 +1,46 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css">
-    <title>MultiPlayer Solitaire</title>
-  </head>
-  <body>
-    <div class='wrapper'>
-      <!-- Header -->
-      <div class='column header'>
-        <h1 class='title'>MultiPlayer Solitaire</h1>
-        <h2 class='subtitle'><em>Game Lobby</em></h2>
-      </div>
 
-      <!-- Left sidebar -->
-      <div class='column left'>
-        <a class='btn' href='/'>Login</a>
-        <a class='btn' href='/'>Play as Guest</a>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.png">
+  <title>MultiPlayer Solitaire</title>
+</head>
 
-      <!-- Main content area -->
-      <div class='column middle'>
-        <a class='btn' href='/'>Create a Game</a>
-        <a class='btn' href='/'>Join a Public Game</a>
-        <a class='btn' href='/'>Join a Private Game</a>
-      </div>
+<body>
+  <div class='outer-wrapper'>
+    <h1>MultiPlayer Solitaire!</h1>
 
-      <!-- Right sidebar -->
-      <div class='column right'>
-        <div class='btn no-press'>Stats</div>
-        <div class='btn no-press'>Chat</div>
-        <div id="messagediv">
-          <form id="form">
-            <input type="text" id="input">
-            <button type="submit" id="submit">Send</button>
-
-            <br><br>
-
-            <a href="/game.html">Play the game</a>
-
-          </form>
-        </div>
-      </div>
-
+    <div class="landing-container">
+      <a class="btn--link" href='/spGame.html'>
+        <div class="btn btn--xl landing-item">Play Alone</div>
+      </a>
+      <a class="btn--link" href='/lobby.html'>
+        <div class="btn btn--xl landing-item">Play with a Friend</div>
+      </a>
     </div>
 
-  </body>
+    <br /><br /><br /><br />
+    <div class='footer'>
+      <h4>Brought to you by <a href='https://github.com/COSC-625/cosc-625'>The Trio</a></h4>
+    </div>
+
+      <!--
+      <div id="messagediv">
+        <form id="form">
+          <input type="text" id="input">
+          <button type="submit" id="submit">Send</button>
+
+          <br><br>
+
+          <a href="/game.html">Play the game</a>
+
+        </form>
+      </div>-->
+    </div>
+  </div>
+
+</body>
 </html>

@@ -1,5 +1,5 @@
 ///////////////////
 //    IMPORTS    //
 ///////////////////
-import "./js/gameLogic";
-import "./js/chat";
+import "./scss/style.scss";
+import "./js/chat.js";

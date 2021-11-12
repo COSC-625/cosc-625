@@ -1,0 +1,33 @@
+#chatbox {
+  width: 400px;
+  height: 228px;
+  border: solid $green-dark 2px;
+  color: $off-white;
+  overflow: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#form {
+  position: fixed;
+  bottom: 160px;
+  width: 435px;
+}
+
+#messagediv {
+  width: 100%;
+  text-align: left;
+  & > div {
+    padding-left: 12px;
+  }
+}
+
+#input {
+  width: 90%;
+}
+
+#submit {
+  display: none;
+}

@@ -2,17 +2,19 @@
 //   CONFIG VARS   //
 /////////////////////
 import { io } from "socket.io-client";
-const socketio = io('http://localhost:3001');
+const url = 'http://localhost:'
+const port = 3001;
+const socketio = io(url + port);
 const messageDiv = document.getElementById('messagediv');
 const form = document.getElementById('form');
 const input = document.getElementById('input');
-
+const data = { userId: socketio.id };
+// ask for name for chat
+const username = prompt('Please Enter Name: ');
 
 ///////////////
 //   CHAT    //
 ///////////////
-// ask for name for chat
-const username = prompt('Please Enter Name: ');
 
 // add message after entering chat
 sendMessage('Welcome to the chat, ' + `${username}` + '!');
@@ -29,7 +31,7 @@ socketio.on('msg', data => {
   sendMessage(`${data.username}: ${data.message}`);
 });
 
-socketio.on('disconnected', name => {
+socketio.on('disconnected', username => {
   sendMessage(`${username}` + ' has left the chat.')
 });
 

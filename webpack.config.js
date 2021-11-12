@@ -3,24 +3,45 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 export default {
+  context: resolve(__dirname, './'),
   entry: {
-    index: resolve(__dirname, './client/src/index.js'),
-    game: resolve(__dirname, './client/src/game.js')
+    index: './client/src/index.js',
+    lobby: './client/src/lobby.js',
+    game: './client/src/game.js'
   },
   mode: 'production',
-  devtool: 'source-map',
   target: 'web',
   plugins: [
+    // Landing page.
     new HtmlWebpackPlugin({
       template: './client/src/index.html',
       title: 'Home',
-      inject: 'body'
+      inject: 'body',
+      favicon: './images/favicon.png'
     }),
+    // Lobby.
     new HtmlWebpackPlugin({
-      template: './client/src/game.html',
+      template: './client/src/lobby.html',
+      inject: 'body',
+      title: 'Lobby',
+      filename: 'lobby.html',
+      favicon: './images/favicon.png'
+    }),
+    // Single-Player Game board.
+    new HtmlWebpackPlugin({
+      template: './client/src/spGame.html',
+      inject: 'body',
+      title: 'Single Player Solitaire',
+      filename: 'spGame.html',
+      favicon: './images/favicon.png'
+    }),
+    // Multi-Player Game board.
+    new HtmlWebpackPlugin({
+      template: './client/src/mpGame.html',
       inject: 'body',
       title: 'MultiPlayer Solitaire',
-      filename: 'game.html'
+      filename: 'mpGame.html',
+      favicon: './images/favicon.png'
     }),
     new MiniCssExtractPlugin({
       filename: "style.css"
@@ -51,13 +72,9 @@ export default {
   },
   output: {
     path: resolve(__dirname, './client/dist'),
-    publicPath: './',
-    filename: '[name].bundle.js',
-    assetModuleFilename: 'images/[name][ext][query]'
-  },
-  optimization: {
-    splitChunks: {
-      chunks: "all"
-    }
+    publicPath: '/',
+    filename: '[name].js',
+    assetModuleFilename: 'images/[name][ext][query]',
+    clean: true
   }
 }
