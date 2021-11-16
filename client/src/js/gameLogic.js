@@ -93,10 +93,10 @@ var s = [];
 var w = [];
 
 // build foundations
-var spades0 = [];
-var hearts0 = [];
-var diamonds0 = [];
-var clubs0 = [];
+var spades = [];
+var hearts = [];
+var diamonds = [];
+var clubs = [];
 //for two player
 var spades1 = [];
 var hearts1 = [];
@@ -112,10 +112,10 @@ var table = [];
 table['stock'] = s;
 table['waste'] = w;
 
-table['spades0'] = spades0;
-table['hearts0'] = hearts0;
-table['diamonds0'] = diamonds0;
-table['clubs0'] = clubs0;
+table['spades'] = spades;
+table['hearts'] = hearts;
+table['diamonds'] = diamonds;
+table['clubs'] = clubs;
 //for seond set of aces
 table['spades1'] = spades1;
 table['hearts1'] = hearts1;
@@ -266,13 +266,13 @@ function render(table, playedCards) {
   update(table['waste'], '#waste ul', playedCards);
 
   // update spades pile
-  update(table['spades0'], '#spades0 ul', playedCards);
+  update(table['spades'], '#spades ul', playedCards);
   // update hearts pile
-  update(table['hearts0'], '#hearts0 ul', playedCards);
+  update(table['hearts'], '#hearts ul', playedCards);
   // update diamonds pile
-  update(table['diamonds0'], '#diamonds0 ul', playedCards);
+  update(table['diamonds'], '#diamonds ul', playedCards);
   // update clubs pile
-  update(table['clubs0'], '#clubs0 ul', playedCards);
+  update(table['clubs'], '#clubs ul', playedCards);
 
   // update spades pile
   update(table['spades1'], '#spades1 ul', playedCards);
@@ -361,10 +361,10 @@ function createCard(card, selector, html, append) {
   if (selector.includes('#stock')) var p = 'stock';
   if (selector.includes('#waste')) var p = 'waste';
 
-  if (selector.includes('#spades0')) var p = 'spades0';
-  if (selector.includes('#hearts0')) var p = 'hearts0';
-  if (selector.includes('#diamonds0')) var p = 'diamonds0';
-  if (selector.includes('#clubs0')) var p = 'clubs0';
+  if (selector.includes('#spades')) var p = 'spades';
+  if (selector.includes('#hearts')) var p = 'hearts';
+  if (selector.includes('#diamonds')) var p = 'diamonds';
+  if (selector.includes('#clubs')) var p = 'clubs';
 
   if (selector.includes('#spades1')) var p = 'spades1';
   if (selector.includes('#hearts1')) var p = 'hearts1';
@@ -416,20 +416,20 @@ function checkForEmptyPiles(table) {
   // declare var with fake pile so we always have one
   var emptyPiles = '#fake.pile';
   // check spades pile
-  if (table['spades0'].length === 0) {
-    emptyPiles += ', #fnd #spades0.pile';
+  if (table['spade'].length === 0) {
+    emptyPiles += ', #fnd #spade.pile';
   }
   // check hearts pile
-  if (table['hearts0'].length === 0) {
-    emptyPiles += ', #fnd #hearts0.pile';
+  if (table['heart'].length === 0) {
+    emptyPiles += ', #fnd #heart.pile';
   }
   // check diamonds pile
-  if (table['diamonds0'].length === 0) {
-    emptyPiles += ', #fnd #diamonds0.pile';
+  if (table['diamond'].length === 0) {
+    emptyPiles += ', #fnd #diamond.pile';
   }
   // check clubs pile
-  if (table['clubs0'].length === 0) {
-    emptyPiles += ', #fnd #clubs0.pile';
+  if (table['club'].length === 0) {
+    emptyPiles += ', #fnd #club.pile';
   }
 
   // check spades pile
@@ -809,7 +809,7 @@ function validateMove(selected, dest) {
     var dSuit = dest[1];
     var dPile = $table.dataset.dest;
     // if destination pile is foundation
-    if (['spades0', 'hearts0', 'diamonds0', 'clubs0', 'spades1', 'hearts1', 'diamonds1', 'clubs1'].indexOf(dPile) >= 0) {
+    if (['spades', 'hearts', 'diamonds', 'clubs', 'spades1', 'hearts1', 'diamonds1', 'clubs1'].indexOf(dPile) >= 0) {
       // if rank isn't in sequence then return false
       if (dRank - sRank !== -1) {
         console.log('Rank sequence invalid');
@@ -845,7 +845,7 @@ function validateMove(selected, dest) {
   }
 
   // if destination is foundation pile
-  if (['spades0', 'hearts0', 'diamonds0', 'clubs0', 'spades1', 'hearts1', 'diamonds1', 'clubs1'].indexOf(dest) >= 0) {
+  if (['spades', 'hearts', 'diamonds', 'clubs', 'spades1', 'hearts1', 'diamonds1', 'clubs1'].indexOf(dest) >= 0) {
     console.log('Destination appears to be empty foundation');
 
     // get last card in destination pile
@@ -910,7 +910,7 @@ function makeMove() {
   }
 
   // if pulling card from foundation pile
-  else if (['spades0', 'hearts0', 'diamonds0', 'clubs0', 'spades1', 'hearts1', 'diamonds1', 'clubs1'].indexOf(source) >= 0) {
+  else if (['spad', 'hear', 'diamon', 'clu', 'spades1', 'hearts1', 'diamonds1', 'clubs1'].indexOf(source) >= 0) {
     // only allow moves to tableau piles
     if (isNaN(dest)) {
       console.log('That move is not allowed');
@@ -958,10 +958,10 @@ function makeMove() {
     '#waste .card:first-child,' +
     '#fnd .card:first-child,' +
 
-    '#fnd #spades0.pile[data-empty="true"],' +
-    '#fnd #hearts0.pile[data-empty="true"],' +
-    '#fnd #diamonds0.pile[data-empty="true"],' +
-    '#fnd #clubs0.pile[data-empty="true"],' +
+    '#fnd #spade.pile[data-empty="true"],' +
+    '#fnd #heart.pile[data-empty="true"],' +
+    '#fnd #diamond.pile[data-empty="true"],' +
+    '#fnd #club.pile[data-empty="true"],' +
 
     '#fnd #spades1.pile[data-empty="true"],' +
     '#fnd #hearts1.pile[data-empty="true"],' +
@@ -1142,10 +1142,10 @@ function getBonus() {
 // check for win
 function checkForWin(table) {
   // if all foundation piles are full
-  if (table['spades0'].length +
-    table['hearts0'].length +
-    table['diamonds0'].length +
-    table['clubs0'].length +
+  if (table['spades'].length +
+    table['hearts'].length +
+    table['diamonds'].length +
+    table['clubs'].length +
     table['spades1'].length +
     table['hearts1'].length +
     table['diamonds1'].length +
@@ -1191,10 +1191,10 @@ function autoWin() {
     '#waste .card:first-child,' +
     '#fnd .card:first-child,' +
 
-    '#fnd #spades0.pile[data-empty="true"],' +
-    '#fnd #hearts0.pile[data-empty="true"],' +
-    '#fnd #diamonds0.pile[data-empty="true"],' +
-    '#fnd #clubs0.pile[data-empty="true"],' +
+    '#fnd #spades.pile[data-empty="true"],' +
+    '#fnd #hearts.pile[data-empty="true"],' +
+    '#fnd #diamonds.pile[data-empty="true"],' +
+    '#fnd #clubs.pile[data-empty="true"],' +
 
     '#fnd #spades1.pile[data-empty="true"],' +
     '#fnd #hearts1.pile[data-empty="true"],' +
