@@ -1,26 +1,59 @@
 import { resolve } from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import { HotModuleReplacementPlugin } from 'webpack';
 
 export default {
+  context: resolve(__dirname, './'),
   entry: {
-    index: resolve(__dirname, './client/src/index.js'),
-    game: resolve(__dirname, './client/src/game.js')
+    index: [
+      'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
+      './client/src/index.js'
+    ],
+    lobby: [
+      'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
+      './client/src/lobby.js'
+    ],
+    game: [
+      'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
+      './client/src/game.js'
+    ]
   },
   mode: 'development',
   devtool: 'inline-source-map',
   target: 'web',
   plugins: [
+    new HotModuleReplacementPlugin(),
+    // Landing page.
     new HtmlWebpackPlugin({
       template: './client/src/index.html',
       title: 'Home',
-      inject: 'body'
+      inject: 'body',
+      favicon: './favicon.png'
     }),
+    // Lobby.
     new HtmlWebpackPlugin({
-      template: './client/src/game.html',
+      template: './client/src/lobby.html',
+      inject: 'body',
+      title: 'Lobby',
+      filename: 'lobby.html',
+      favicon: './favicon.png'
+    }),
+    // Single-Player Game board.
+    new HtmlWebpackPlugin({
+      template: './client/src/spGame.html',
+      inject: 'body',
+      title: 'Single-Player Solitaire',
+      filename: 'spGame.html',
+      favicon: './favicon.png'
+    }),
+    // Multi-Player Game board.
+    new HtmlWebpackPlugin({
+      template: './client/src/mpGame.html',
       inject: 'body',
       title: 'MultiPlayer Solitaire',
-      filename: 'game.html'
+      filename: 'mpGame.html',
+      favicon: './favicon.png'
     }),
     new MiniCssExtractPlugin({
       filename: "style.css"
@@ -51,13 +84,9 @@ export default {
   },
   output: {
     path: resolve(__dirname, './client/dist'),
-    publicPath: './',
-    filename: '[name].bundle.js',
-    assetModuleFilename: 'images/[name][ext][query]'
-  },
-  optimization: {
-    splitChunks: {
-      chunks: "all"
-    }
+    publicPath: '/',
+    filename: '[name].js',
+    assetModuleFilename: 'images/[name][ext][query]',
+    clean: true
   }
 }

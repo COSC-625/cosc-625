@@ -5,26 +5,32 @@ import { join } from 'path';
 import compression from 'compression';
 
 const express = require('express');
-const server = express();
+const app = express();
 const open = require('open');
 const port = 3000 || process.env.PORT;
 
-server.use(compression());
-server.use(express.static('./client/dist'));
+app.use(compression());
+app.use(express.static('./client/dist'));
 
 // Get routes to individual pages.
-server.get('/', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(join(__dirname, './client/dist/index.html'));
 });
-server.get('/game', (req, res) => {
-  res.sendFile(join(__dirname, './client/dist/game.html'));
+app.get('/lobby', (req, res) => {
+  res.sendFile(join(__dirname, './client/dist/lobby.html'));
+});
+app.get('/spGame', (req, res) => {
+  res.sendFile(join(__dirname, './client/dist/spGame.html'));
+});
+app.get('/mpGame', (req, res) => {
+  res.sendFile(join(__dirname, './client/dist/mpGame.html'));
 });
 
 
 //////////////////////
 //    NETWORKING    //
 //////////////////////
-server.listen(port, (err) => {
+app.listen(port, (err) => {
   if (err) {
     console.log(err);
   } else {
