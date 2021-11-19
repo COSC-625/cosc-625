@@ -660,7 +660,7 @@ function select(event) {
         // if stock isn't empty
         if (table['stock'].length) {
           //if there are more than 6 cards in stock then flip 3
-          if (table['stock'].length >= 6) {
+          if (table['stock'].length >= 5) {
                 // move card from stock to waste
                 if (table['stock'].length >= 3) {
                   move(table['stock'], table['waste']);
