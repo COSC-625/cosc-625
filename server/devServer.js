@@ -44,6 +44,7 @@ app.get('/mpGame', (req, res) => {
 //////////////////////
 //    NETWORKING    //
 //////////////////////
+
 // create http server
 const server = require('http').createServer(app);
 // express instance passed into new socket.io instance
@@ -64,9 +65,35 @@ server.listen(port, (err) => {
   }
 });
 
-// connect listener
+// middleware function for persistent id -- create user session ID, user ID, and username
+socketio.use((socket, next) => {
+  const sessionID = socket.handshake.auth.sessionID;
+  if(sessionID) {
+    const session = sessionStore.findSession(sessionID);
+    if(session) {
+      socket.sessionID = sessionID;
+      socket.userID = session.userID;
+      socket.username = session.username;
+      return next();
+    }
+  } else {
+    // new session
+      socket.sessionID = randomId();
+      socket.userID = randomId();
+      socket.username = username();
+  }
+});
+
+//connect listener
 socketio.on("connection", (socket) => {
   console.log("Client connection successful!");
+
+//session info delivered to user
+  socket.emit("the-session", {
+    sessionID: socket.sessionID,
+    userID: socket.userID,
+  });
+
   //socket.emit("chat-message", 'Testing');
   socket.on('joined-user', username => {
     users[socket.id] = username;
