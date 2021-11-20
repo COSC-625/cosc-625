@@ -65,7 +65,8 @@ server.listen(port, (err) => {
   }
 });
 
-// middleware function for persistent id -- create user session ID, user ID, and username
+//middleware function for authenticating user when reconnecting or
+//creating new sessionID and userID if session doesn't exist
 socketio.use((socket, next) => {
   const sessionID = socket.handshake.auth.sessionID;
   if(sessionID) {
@@ -78,9 +79,9 @@ socketio.use((socket, next) => {
     }
   } else {
     // new session
-      socket.sessionID = randomId();
-      socket.userID = randomId();
-      socket.username = username();
+      socket.sessionID = Math.round(Math.random() * 10000);
+      socket.userID = Math.round(Math.random() * 10000);
+      socket.username = username;
   }
 });
 
