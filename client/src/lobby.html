@@ -14,7 +14,7 @@
     <div class="lobby-container">
 
       <!-- START MP GAME BUTTON -->
-      <a class="btn--link" href='/mpGame.html'>
+      <a class="btn--link" id="mpSessionLink" href=''>
         <div class="btn btn--xl lobby-item">Start Match!</div>
       </a>
 
@@ -35,6 +35,15 @@
       <h4>Brought to you by <a href='https://github.com/COSC-625/cosc-625'>The
           Trio</a></h4>
     </div>
-</body>
 
+<script src='./js/chat.js'></script>
+<script>
+  window.onload(function() {
+    var sid = new URLSearchParams(window.location.search).get("sid");
+    var url = "/mpGame.html?sid=" + encodeURIComponent(sid);
+    document.getElementById("mpSessionLink").setAttribute("href", url);
+  });
+</script>
+
+</body>
 </html>

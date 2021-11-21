@@ -17,7 +17,7 @@
       <a class="btn--link" href='/spGame.html'>
         <div class="btn btn--xl landing-item">Play Alone</div>
       </a>
-      <a class="btn--link" href='/lobby.html'>
+      <a class="btn--link" id="mpSessionLink" href=''>
         <div class="btn btn--xl landing-item">Play with a Friend</div>
       </a>
     </div>
@@ -41,6 +41,14 @@
       </div>-->
     </div>
   </div>
+
+  <script>
+    window.onload = function() {
+      var sid = Math.round(Math.random() * 100000);
+      var url = "/lobby.html?sid=" + encodeURIComponent(sid);
+      document.getElementById("mpSessionLink").setAttribute("href", url);
+    }
+  </script>
 
 </body>
 </html>
