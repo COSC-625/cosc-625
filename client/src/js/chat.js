@@ -10,7 +10,7 @@ const input = document.getElementById('input');
 
 // Fetch URL parameter for this session.
 const sid = new URLSearchParams(window.location.search).get('sid');
-console.log("Session ID: " + urlParams);
+console.log("Session ID: " + sid);
 
 
 ///////////////
@@ -23,59 +23,73 @@ while (username === "") {
   username = prompt('Please Enter a Name: ');
 }
 
-// With valid username, connect to Socket.io, add auth token and username to handshake object.
-const socketio = io(url + port, {
-  // auth.token is a preset object for passing credentials.
+// With valid username, connect to Socket.io, add auth package to handshake object.
+const socket = io(url + port, {
+  autoConnect: false,
   auth: {
-    // In order to ensure sessions remain constant, get them from the URL.
-    token: sid
-  },
-  // The query object is used to pass any user-defined key-value pairs.
-  query: {
+    sessionID: sid,
     username: username,
-    userID: null
+    userID: Math.round(Math.random() * 100000),
+    userList: []
   }
 });
 
-socketio.onAny((event, ...args) => {
-  console.log(event, args);
+// Register a catch-all event listener.
+socket.onAny((event, ...args) => {
+  console.log(`Event detected: ${event}`);
 });
 
-// When a user joins, send username to server.
-socketio.emit('joined-user', username);
+// When a user enters their name, connect the socket.
+if (username !== '') {
+  socket.connect();
+  socket.emit('joined-user', username);
+}
 
-// Server responds to 'joined-user' with an emitted message.
-socketio.on('joined', username => {
+
+// Server responds to 'joined-user' (above) with a message to the session's room.
+socket.on('joined', username => {
   sendMessage(`${username} has entered the chat.`);
 });
 
 // When the server initializes a session.
-socketio.on("the-session", ({ sessionID, userID }) => {
-  //get sessionID and username when page opens. then attach each to auth object
-  if (sessionID !== null && username !=+ '') {
-    // socketio.auth = { sessionID };
-    // socketio.auth = { username };
-    // socketio.connect();
+socket.on("the-session", ({ sessionID, userID, username, userList }) => {
+  // Check if user already entered this chat previously.
+  const sessID = localStorage.getItem("sessionID");
+  if (sessID === sessionID) {
+    // If so, welcome them back.
+    sendMessage('Welcome back, ' + `${username}` + '!');
+  }
+  // If not, attach values to auth object and welcome them.
+  // NOT SURE IF NECESSARY EXCEPT ON SESSION 'RECONNECT'.
+  // ON INITIAL CONNECTION, 'socket.auth' IS ALREADY SET.
+  else if (sessionID && userID && username !== "") {
+    socket.auth = {
+      sessionID: sessionID,
+      username: username,
+      userID: userID,
+      userList: !isEmpty(userList) ? userList : []
+    };
+    localStorage.setItem("sessionID", sessionID);
     //add message after entering chat
     sendMessage('Welcome to the chat, ' + `${username}` + '!');
   }
-  socketio.auth = { sessionID }; //session ID will be attached whenever reconnecting
-  //localstorage allows for preserving session across tabs and when refreshed/reconnected, so all tabs will have same sessionID
-  //store sessionID into localStorage
-  localStorage.setItem("sessionID", sessionID);
-  socketio.query.userID = userID;
 });
 
-socketio.on('msg', data => {
+const users = [];
+socket.on('users', userList => {
+  users = userList;
+});
+
+socket.on('msg', data => {
   //console.log(data);
   //call function to display username and message
   sendMessage(`${data.username}: ${data.message}`);
 });
 
-socketio.on('disconnected', userID => {
-  for (let i = 0; i < this.users.length; i++) {
+socket.on('disconnected', uid => {
+  for (let i = 0; i < users.length; i++) {
     const user = this.users[i];
-    if (user.userID === id) {
+    if (user.userID === uid) {
       user.connected = false;
       break;
     }
@@ -88,7 +102,7 @@ form.addEventListener('submit', e => {
   e.preventDefault();
   const message = input.value;
   sendMessage(`${username}: ${message}`)
-  socketio.emit('share-msg', message)
+  socketio.emit('share-msg', (message, username))
   // clears out input box after sending msg
   input.value = '';
 });
