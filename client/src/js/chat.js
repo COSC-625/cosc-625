@@ -17,10 +17,13 @@ console.log("Session ID: " + sid);
 //   CHAT    //
 ///////////////
 
-const username = "";
-// User must enter something, not leave it blank.
-while (username === "") {
-  username = prompt('Please Enter a Name: ');
+var username = '';
+// Only prompt for a username on the lobby page.
+if (window.location.pathname.includes("lobby")) {
+  // User must enter something, not leave it blank.
+  while (username === '') {
+    username = prompt('Please Enter a Name: ');
+  }
 }
 
 // With valid username, connect to Socket.io, add auth package to handshake object.
@@ -33,18 +36,13 @@ const socket = io(url + port, {
     userList: []
   }
 });
+socket.connect();
+socket.emit('joined-user', username);
 
 // Register a catch-all event listener.
 socket.onAny((event, ...args) => {
   console.log(`Event detected: ${event}`);
 });
-
-// When a user enters their name, connect the socket.
-if (username !== '') {
-  socket.connect();
-  socket.emit('joined-user', username);
-}
-
 
 // Server responds to 'joined-user' (above) with a message to the session's room.
 socket.on('joined', username => {
@@ -67,7 +65,7 @@ socket.on("the-session", ({ sessionID, userID, username, userList }) => {
       sessionID: sessionID,
       username: username,
       userID: userID,
-      userList: !isEmpty(userList) ? userList : []
+      userList: (userList && userList.length !== 0) ? userList : []
     };
     localStorage.setItem("sessionID", sessionID);
     //add message after entering chat
@@ -102,7 +100,7 @@ form.addEventListener('submit', e => {
   e.preventDefault();
   const message = input.value;
   sendMessage(`${username}: ${message}`)
-  socketio.emit('share-msg', (message, username))
+  socket.emit('share-msg', (message, username))
   // clears out input box after sending msg
   input.value = '';
 });

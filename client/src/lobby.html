@@ -29,10 +29,6 @@
       </div>
     </div>
 
-    <!-- Chat.js -->
-    <script src='./js/chat.js'></script>
-    <!-- Chat.js -->
-
     <br /><br /><br /><br />
     <div class='footer'>
       <h4>Brought to you by <a href='https://github.com/COSC-625/cosc-625'>The
@@ -40,11 +36,12 @@
     </div>
 
 <script>
-  window.onload(function() {
+  function getSID() {
     var sid = new URLSearchParams(window.location.search).get("sid");
     var url = "/mpGame.html?sid=" + encodeURIComponent(sid);
     document.getElementById("mpSessionLink").setAttribute("href", url);
-  });
+  }
+  window.onload = getSID;
 </script>
 
 </body>

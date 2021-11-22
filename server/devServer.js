@@ -58,7 +58,7 @@ const io = require('socket.io')(server, {
 });
 
 // Pulling session storage functions in from sessionStore.js.
-const { InMemorySessionStore } = require("./sessionStore");
+const { InMemorySessionStore } = require("./sessionStore.js");
 const sessionStore = new InMemorySessionStore();
 
 // Register middleware function for authenticating user when reconnecting or
@@ -111,7 +111,7 @@ io.on("connection", (socket) => {
   console.log("Socket data on connection: " + socket);
 
   // Populate list of existing users.
-  const userList = getUsers();
+  const userList = getUsers;
 
   // Persist the session in server-side memory.
   // TODO: Check that session values are not overwritten when multiple people join.
@@ -142,7 +142,7 @@ io.on("connection", (socket) => {
   socket.emit('users', userList);
 
   // Fetch all session-based users.
-  const getUsers = () => {
+  function getUsers() {
     const users = [];
     sessionStore.findAllSessions().forEach((session) => {
       users.push({
