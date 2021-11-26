@@ -36,17 +36,18 @@
       <div class="extra-row">
 
         <div id="mpScore" class="mpScore" data-pile="mpScore">
-          <span></span>
           <ul></ul>
           <table>
           <th>Cards Played</th>
-            <tr><td>Your Score:</td><td>0</td></tr>
-            <tr><td>Their Score:</td><td>0</td></tr>
+            <tr><td>Your Score:</td><td id="yourCardsPlayed">0</td></tr>
+            <tr><td>Their Score:</td><td id="theirCardsPlayed">0</td></tr>
           </table>
           
           <br><br><br><br><br><br>
-          <label>Cards in Stock:</label>
-          <span>0</span>
+          <div id = "cardsStock" class = "cardsStock">
+            <label>Cards in Stock:</label>
+            <span id="numCardStock">0</span>
+          </div>
         </div>
 
         <ul id="fnd" class="fnd">
