@@ -1,9 +1,3 @@
-/**
- * BASE JS FILE.
- * This isn't used in the program, but is the JS file initially created.
- * Leaving it here to maintain Git history only.
- */
-
 /* ### TODO ###
 - Refactor code :) Always
 
