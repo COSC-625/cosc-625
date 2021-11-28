@@ -5,19 +5,20 @@ import { HotModuleReplacementPlugin } from 'webpack';
 
 export default {
   context: resolve(__dirname, './'),
+  // Entry defines the "chunks" that get bundled into every "output" page.
+  // We can exclude chunks from loading on specific pages using excludeChunks.
   entry: {
+    // Styles and hot reloading chunk.
     index: [
       'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
       './client/src/index.js'
     ],
-    lobby: [
-      'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
-      './client/src/lobby.js'
-    ],
-    game: [
-      'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
-      './client/src/game.js'
-    ]
+    // Chat chunk.
+    chat:   './client/src/chatBundle.js',
+    // mpGameLogic chunk.
+    mpgame: './client/src/mpGame.js',
+    // spGameLogic chunk.
+    spgame: './client/src/spGame.js'
   },
   mode: 'development',
   devtool: 'inline-source-map',
@@ -29,7 +30,13 @@ export default {
       template: './client/src/index.html',
       title: 'Home',
       inject: 'body',
-      favicon: './favicon.png'
+      favicon: './favicon.png',
+      // Base page is only styles and hot-reloading functionality.
+      excludeChunks: [
+        'chat',
+        'mpgame',
+        'spgame'
+      ]
     }),
     // Lobby.
     new HtmlWebpackPlugin({
@@ -37,7 +44,12 @@ export default {
       inject: 'body',
       title: 'Lobby',
       filename: 'lobby.html',
-      favicon: './favicon.png'
+      favicon: './favicon.png',
+      // Lobby excludes game logic files.
+      excludeChunks: [
+        'mpgame',
+        'spgame'
+      ]
     }),
     // Single-Player Game board.
     new HtmlWebpackPlugin({
@@ -45,7 +57,11 @@ export default {
       inject: 'body',
       title: 'Single-Player Solitaire',
       filename: 'spGame.html',
-      favicon: './favicon.png'
+      favicon: './favicon.png',
+      // SP Game excludes MP Game logic.
+      excludeChunks: [
+        'mpgame'
+      ]
     }),
     // Multi-Player Game board.
     new HtmlWebpackPlugin({
@@ -53,7 +69,11 @@ export default {
       inject: 'body',
       title: 'MultiPlayer Solitaire',
       filename: 'mpGame.html',
-      favicon: './favicon.png'
+      favicon: './favicon.png',
+      // MP Game excludes SP Game logic.
+      excludeChunks: [
+        'spgame'
+      ]
     }),
     new MiniCssExtractPlugin({
       filename: "style.css"
@@ -86,7 +106,6 @@ export default {
     path: resolve(__dirname, './client/dist'),
     publicPath: '/',
     filename: '[name].js',
-    assetModuleFilename: 'images/[name][ext][query]',
-    clean: true
+    assetModuleFilename: 'images/[name][ext][query]'
   }
 }

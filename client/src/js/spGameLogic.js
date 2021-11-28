@@ -1,9 +1,3 @@
-/**
- * BASE JS FILE.
- * This isn't used in the program, but is the JS file initially created.
- * Leaving it here to maintain Git history only.
- */
-
 /* ### TODO ###
 - Refactor code :) Always
 
@@ -285,10 +279,6 @@ function render(table, playedCards) {
   $table.style.opacity = '100';
 
   console.log('Table Rendered:', table);
-
-  //print number of cards in the stock at the beginning of the game
-  document.getElementById("numCardStock").textContent = table['stock'].length;
-
   return;
 }
 
@@ -668,50 +658,16 @@ function select(event) {
         console.log('Status: Stock Pile Clicked');
         // if stock isn't empty
         if (table['stock'].length) {
-          //if there are more than 6 cards in stock then flip 3
-          if ((table['stock'].length + table['waste'].length) > 5) {
-                // move card from stock to waste
-                if (table['stock'].length >= 3) {
-                  move(table['stock'], table['waste']);
-                  move(table['stock'], table['waste']);
-                  move(table['stock'], table['waste']);
-                  reset(table);
-                  render(table, playedCards);
-                }
-                else if (table['stock'].length === 2) {
-                  move(table['stock'], table['waste']);
-                  move(table['stock'], table['waste']);
-                  reset(table);
-                  render(table, playedCards);
-                }
-                else if (table['stock'].length === 1) {
-                  move(table['stock'], table['waste']);
-                  reset(table);
-                  render(table, playedCards);
-                }
-                // if empty, then bind click to stock pile element
-                if (table['stock'].length === 0) bindClick('#stock .reload-icon');
-                // count move
-                countMove(moves++);
-                // return to play
-                play(table);
-          }
-
-          else { //there are less than six cards in the stock, flip one at a time
-                console.log('Status: less than 6 cards in stock - flip one at a time');
-                move(table['stock'], table['waste']);
-                reset(table);
-                render(table, playedCards);
-              
-                // if empty, then bind click to stock pile element
-                if (table['stock'].length === 0) bindClick('#stock .reload-icon');
-                // count move
-                countMove(moves++);
-                // return to play
-                play(table);
-          }
-          //print number of cards left in stock to flip
-          document.getElementById("numCardStock").textContent = table['stock'].length;
+          // move card from stock to waste
+          move(table['stock'], table['waste']);
+          reset(table);
+          render(table, playedCards);
+          // if empty, then bind click to stock pile element
+          if (table['stock'].length === 0) bindClick('#stock .reload-icon');
+          // count move
+          countMove(moves++);
+          // return to play
+          play(table);
         }
       }
 
@@ -730,7 +686,7 @@ function select(event) {
         // turn all stock cards face down
         flipCards('#stock .card', 'down');
         // update score by -100 pts
-        updateScore(-10);
+        updateScore(-100);
         // return to play
         play(table);
       }
