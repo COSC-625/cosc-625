@@ -144,25 +144,27 @@ var bonus = 0;
 var lastEventTime = 0;
 var unplayedTabCards = [];
 
-// 1. CREATE DECK
-deck = create(deck, suits);
+// Only load gameLogic file on spGame or mpGame pages.
+if (window.location.pathname.includes("Game")) {
+  // 1. CREATE DECK
+  deck = create(deck, suits);
 
-// 2. SHUFFLE DECK
-deck = shuffle(deck);
+  // 2. SHUFFLE DECK
+  deck = shuffle(deck);
 
-// 3. DEAL DECK
-table = deal(deck, table);
+  // 3. DEAL DECK
+  table = deal(deck, table);
 
-// 4. RENDER TABLE
-render(table, playedCards);
+  // 4. RENDER TABLE
+  render(table, playedCards);
 
-// 5. START GAMEPLAY
-play(table);
-
-// ### EVENT HANDLERS ###
-window.onresize = function (event) {
-  sizeCards();
-};
+  // 5. START GAMEPLAY
+  play(table);
+  // ### EVENT HANDLERS ###
+  window.onresize = function (event) {
+    sizeCards();
+  };
+}
 
 // ### FUNCTIONS ###
 

@@ -4,48 +4,108 @@
 import { io } from "socket.io-client";
 const url = 'http://localhost:'
 const port = 3001;
-const socketio = io(url + port);
 const messageDiv = document.getElementById('messagediv');
 const form = document.getElementById('form');
 const input = document.getElementById('input');
-const data = { userId: socketio.id };
-// ask for name for chat
-const username = prompt('Please Enter Name: ');
+
+// Fetch URL parameter for this session.
+const sid = new URLSearchParams(window.location.search).get('sid');
+console.log("Session ID: " + sid);
+
 
 ///////////////
 //   CHAT    //
 ///////////////
 
-// add message after entering chat
-sendMessage('Welcome to the chat, ' + `${username}` + '!');
+var username = '';
+// Only prompt for a username on the lobby page.
+if (window.location.pathname.includes("lobby")) {
+  // User must enter something, not leave it blank.
+  while (username === '') {
+    username = prompt('Please Enter a Name: ');
+  }
+}
 
-socketio.emit('joined-user', username);
+// With valid username, connect to Socket.io, add auth package to handshake object.
+const socket = io(url + port, {
+  autoConnect: false,
+  auth: {
+    sessionID: sid,
+    username: username,
+    userID: Math.round(Math.random() * 100000),
+    userList: []
+  }
+});
+socket.connect();
+socket.emit('joined-user', username);
 
-socketio.on('joined', username => {
+// Register a catch-all event listener.
+socket.onAny((event, ...args) => {
+  console.log(`Event detected: ${event}`);
+});
+
+// Server responds to 'joined-user' (above) with a message to the session's room.
+socket.on('joined', username => {
   sendMessage(`${username} has entered the chat.`);
 });
 
-socketio.on('msg', data => {
-  // console.log(data);
-  // call function to display username and message
+// When the server initializes a session.
+socket.on("the-session", ({ sessionID, userID, username, userList }) => {
+  // Check if user already entered this chat previously.
+  const sessID = localStorage.getItem("sessionID");
+  if (sessID === sessionID) {
+    // If so, welcome them back.
+    sendMessage('Welcome back, ' + `${username}` + '!');
+  }
+  // If not, attach values to auth object and welcome them.
+  // NOT SURE IF NECESSARY EXCEPT ON SESSION 'RECONNECT'.
+  // ON INITIAL CONNECTION, 'socket.auth' IS ALREADY SET.
+  else if (sessionID && userID && username !== "") {
+    socket.auth = {
+      sessionID: sessionID,
+      username: username,
+      userID: userID,
+      userList: (userList && userList.length !== 0) ? userList : []
+    };
+    localStorage.setItem("sessionID", sessionID);
+    //add message after entering chat
+    sendMessage('Welcome to the chat, ' + `${username}` + '!');
+  }
+});
+
+const users = [];
+socket.on('users', userList => {
+  users = userList;
+});
+
+socket.on('msg', data => {
+  //console.log(data);
+  //call function to display username and message
   sendMessage(`${data.username}: ${data.message}`);
 });
 
-socketio.on('disconnected', username => {
+socket.on('disconnected', uid => {
+  for (let i = 0; i < users.length; i++) {
+    const user = this.users[i];
+    if (user.userID === uid) {
+      user.connected = false;
+      break;
+    }
+  }
   sendMessage(`${username}` + ' has left the chat.')
 });
 
 form.addEventListener('submit', e => {
-  // clicking send will not reload page
+  //clicking send will not reload page
   e.preventDefault();
   const message = input.value;
   sendMessage(`${username}: ${message}`)
-  socketio.emit('share-msg', message)
+  socket.emit('share-msg', (message, username))
   // clears out input box after sending msg
   input.value = '';
 });
 
-// pass in message and append in messageDiv
+//pass in message and append in messageDiv
 function sendMessage(message) {
   const msg = document.createElement('div');
   msg.innerText = message;
