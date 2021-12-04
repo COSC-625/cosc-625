@@ -1,7 +1,6 @@
 import { resolve } from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { HotModuleReplacementPlugin } from 'webpack';
 
 export default {
   context: resolve(__dirname, './'),
@@ -9,10 +8,7 @@ export default {
   // We can exclude chunks from loading on specific pages using excludeChunks.
   entry: {
     // Styles and hot reloading chunk.
-    index: [
-      'webpack-hot-middleware/client?path=/__webpack_hmr&reload=true',
-      './client/src/index.js'
-    ],
+    index: './client/src/index.js',
     // Chat chunk.
     chat:   './client/src/chatBundle.js',
     // mpGameLogic chunk.
@@ -24,7 +20,6 @@ export default {
   devtool: 'inline-source-map',
   target: 'web',
   plugins: [
-    new HotModuleReplacementPlugin(),
     // Landing page.
     new HtmlWebpackPlugin({
       template: './client/src/index.html',
