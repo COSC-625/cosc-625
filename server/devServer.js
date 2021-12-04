@@ -52,7 +52,6 @@ app.get('/mpGame', (req, res) => {
 const { addUser,
         deleteUser,
         deleteRoom,
-        getRoom,
         GetUsers } = require('../client/src/js/users.js');
 
 // Create http server.
@@ -82,9 +81,9 @@ io.on("connection", (socket) => {
 
     // FOR TESTING DURING DEVELOPMENT.
     // Console log socket user details.
-    socket.emit('console', {msg: "RoomID: " + socket.handshake.auth.roomID});
-    socket.emit('console', {msg: "Username: " + socket.handshake.auth.username});
-    socket.emit('console', {msg: "userID: " + socket.handshake.auth.userID});
+    // socket.emit('console', {msg: "RoomID: " + socket.handshake.auth.roomID});
+    // socket.emit('console', {msg: "Username: " + socket.handshake.auth.username});
+    // socket.emit('console', {msg: "userID: " + socket.handshake.auth.userID});
 
     // Emit joined message.
     io.to(socket.handshake.auth.roomID).emit('joined', ({
@@ -122,14 +121,14 @@ io.on("connection", (socket) => {
 
   // FOR TESTING DURING DEVELOPMENT.
   // Console log data from socket room creation and users joining.
-  io.of('/').adapter.on('create-room', (room) => {
-    let message = `room ${room} was created.`;
-    socket.emit('console', {msg: message});
-  });
-  io.of('/').adapter.on('join-room', (room, id) => {
-    let message = `socket ${id} has joined room ${room}.`;
-    socket.emit('console', {msg: message});
-  });
+  // io.of('/').adapter.on('create-room', (room) => {
+  //   let message = `room ${room} was created.`;
+  //   socket.emit('console', {msg: message});
+  // });
+  // io.of('/').adapter.on('join-room', (room, id) => {
+  //   let message = `socket ${id} has joined room ${room}.`;
+  //   socket.emit('console', {msg: message});
+  // });
 
 }); // End of io.on('connection').
 
