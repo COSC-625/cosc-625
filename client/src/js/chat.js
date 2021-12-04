@@ -1,17 +1,17 @@
 /////////////////////
 //   CONFIG VARS   //
 /////////////////////
+
 import { io } from "socket.io-client";
 const url = 'http://localhost:'
 const port = 3001;
+const localhost = url + port;
 const messageDiv = document.getElementById('messagediv');
 const form = document.getElementById('form');
 const input = document.getElementById('input');
 
 // Fetch URL parameter for this session.
-const sid = new URLSearchParams(window.location.search).get('sid');
-console.log("Session ID: " + sid);
-
+const rid = new URLSearchParams(window.location.search).get('rid');
 
 ///////////////
 //   CHAT    //
@@ -26,86 +26,63 @@ if (window.location.pathname.includes("lobby")) {
   }
 }
 
-// With valid username, connect to Socket.io, add auth package to handshake object.
-const socket = io(url + port, {
+// Establish connection credentials to socket.io.
+const socket = io(localhost, {
   autoConnect: false,
   auth: {
-    sessionID: sid,
+    roomID: rid,
     username: username,
-    userID: Math.round(Math.random() * 100000),
-    userList: []
+    userID: null,
+    users: null
   }
 });
-socket.connect();
-socket.emit('joined-user', username);
 
-// Register a catch-all event listener.
-socket.onAny((event, ...args) => {
-  console.log(`Event detected: ${event}`);
+if (username !== '') {
+  socket.connect();
+}
+// On connection, emit user details to server.
+socket.on('connect', () => {
+  socket.emit('joined-user');
 });
 
 // Server responds to 'joined-user' (above) with a message to the session's room.
-socket.on('joined', username => {
-  sendMessage(`${username} has entered the chat.`);
-});
-
-// When the server initializes a session.
-socket.on("the-session", ({ sessionID, userID, username, userList }) => {
-  // Check if user already entered this chat previously.
-  const sessID = localStorage.getItem("sessionID");
-  if (sessID === sessionID) {
-    // If so, welcome them back.
-    sendMessage('Welcome back, ' + `${username}` + '!');
+socket.on('joined', (data) => {
+  let count = 0;
+  for (let i = 0; i < data.users.length; i++) {
+    count++;
   }
-  // If not, attach values to auth object and welcome them.
-  // NOT SURE IF NECESSARY EXCEPT ON SESSION 'RECONNECT'.
-  // ON INITIAL CONNECTION, 'socket.auth' IS ALREADY SET.
-  else if (sessionID && userID && username !== "") {
-    socket.auth = {
-      sessionID: sessionID,
-      username: username,
-      userID: userID,
-      userList: (userList && userList.length !== 0) ? userList : []
-    };
-    localStorage.setItem("sessionID", sessionID);
-    //add message after entering chat
-    sendMessage('Welcome to the chat, ' + `${username}` + '!');
-  }
+  let inRoom = (count === 1) ? "You are alone here." : `${count} people in chat.`;
+  sendMessage(`${data.username} has entered the room. ` + inRoom);
 });
 
-const users = [];
-socket.on('users', userList => {
-  users = userList;
+socket.on("console", (data) => {
+  console.log(data.msg);
 });
 
-socket.on('msg', data => {
-  //console.log(data);
-  //call function to display username and message
+socket.on('msg', (data) => {
+  // Call function to display username and message.
   sendMessage(`${data.username}: ${data.message}`);
 });
 
-socket.on('disconnected', uid => {
-  for (let i = 0; i < users.length; i++) {
-    const user = this.users[i];
-    if (user.userID === uid) {
-      user.connected = false;
-      break;
-    }
+socket.on('disconnected', (data) => {
+  let count = 0;
+  for (let i = 0; i < data.users.length; i++) {
+    count++;
   }
-  sendMessage(`${username}` + ' has left the chat.')
+  let inRoom = (count === 1) ? "You are alone here." : `${count} people in chat.`;
+  sendMessage(`${data.username}` + ' has left the room. ' + inRoom);
 });
 
 form.addEventListener('submit', e => {
-  //clicking send will not reload page
+  // Clicking send will not reload page.
   e.preventDefault();
-  const message = input.value;
-  sendMessage(`${username}: ${message}`)
-  socket.emit('share-msg', (message, username))
-  // clears out input box after sending msg
+  let message = input.value;
+  socket.emit('share-msg', (message));
+  // Clears out input box after sending msg.
   input.value = '';
 });
 
-//pass in message and append in messageDiv
+// Pass in message and append in messageDiv.
 function sendMessage(message) {
   const msg = document.createElement('div');
   msg.innerText = message;

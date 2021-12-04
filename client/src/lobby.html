@@ -36,12 +36,12 @@
     </div>
 
 <script>
-  function getSID() {
-    var sid = new URLSearchParams(window.location.search).get("sid");
-    var url = "/mpGame.html?sid=" + encodeURIComponent(sid);
+  function getRID() {
+    var rid = new URLSearchParams(window.location.search).get("rid");
+    var url = "/mpGame.html?rid=" + encodeURIComponent(rid);
     document.getElementById("mpSessionLink").setAttribute("href", url);
   }
-  window.onload = getSID;
+  window.onload = getRID;
 </script>
 
 </body>

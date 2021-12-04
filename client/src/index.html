@@ -30,8 +30,8 @@
 
   <script>
     window.onload = function() {
-      var sid = Math.round(Math.random() * 100000);
-      var url = "/lobby.html?sid=" + encodeURIComponent(sid);
+      var rid = Math.round(Math.random() * 100000);
+      var url = "/lobby.html?rid=" + encodeURIComponent(rid);
       document.getElementById("mpSessionLink").setAttribute("href", url);
     }
   </script>
