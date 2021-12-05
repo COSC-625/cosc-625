@@ -23,7 +23,7 @@
       </div>
 
       <div id="redeal">
-        <span class='btn btn--sm' onclick="refreshGame()">Redeal</span>
+        <span class='btn btn--sm' onclick="location.replace(location.href.split('#')[0])">Redeal</span>
       </div>
 
       <div class="score" data-score="0">
@@ -328,16 +328,5 @@
       </div>
     </li>
   </ul><!-- /.templates -->
-
-  <script>
-    function refreshGame() {
-      var head = document.getElementsByTagName('head')[0];
-      var body = document.getElementsByTagName('body')[0];
-      var script = document.createElement('script');
-      script.src = 'spgame.js?cachebuster=' + new Date().getTime();
-
-      head.appendChild(script);
-    }
-  </script>
 </body>
 </html>
