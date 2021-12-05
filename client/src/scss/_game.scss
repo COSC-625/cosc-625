@@ -564,6 +564,8 @@ body {
    .waste {
       z-index: 1;
    }
+   .waste ul li.card.up:nth-child(1) { left: 50px; }
+   .waste ul li.card.up:nth-child(2) { left: 27px; }
 
 /* foundation */
    .fnd .pile {

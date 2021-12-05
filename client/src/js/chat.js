@@ -1,51 +1,88 @@
 /////////////////////
 //   CONFIG VARS   //
 /////////////////////
+
 import { io } from "socket.io-client";
 const url = 'http://localhost:'
 const port = 3001;
-const socketio = io(url + port);
+const localhost = url + port;
 const messageDiv = document.getElementById('messagediv');
 const form = document.getElementById('form');
 const input = document.getElementById('input');
-const data = { userId: socketio.id };
-// ask for name for chat
-const username = prompt('Please Enter Name: ');
+
+// Fetch URL parameter for this session.
+const rid = new URLSearchParams(window.location.search).get('rid');
 
 ///////////////
 //   CHAT    //
 ///////////////
 
-// add message after entering chat
-sendMessage('Welcome to the chat, ' + `${username}` + '!');
+var username = '';
+// Only prompt for a username on the lobby page.
+if (window.location.pathname.includes("lobby")) {
+  // User must enter something, not leave it blank.
+  while (username === '') {
+    username = prompt('Please Enter a Name: ');
+  }
+}
 
-socketio.emit('joined-user', username);
-
-socketio.on('joined', username => {
-  sendMessage(`${username} has entered the chat.`);
+// Establish connection credentials to socket.io.
+const socket = io(localhost, {
+  autoConnect: false,
+  auth: {
+    roomID: rid,
+    username: username,
+    userID: null,
+    users: null
+  }
 });
 
-socketio.on('msg', data => {
-  // console.log(data);
-  // call function to display username and message
+if (username !== '') {
+  socket.connect();
+}
+// On connection, emit user details to server.
+socket.on('connect', () => {
+  socket.emit('joined-user');
+});
+
+// Server responds to 'joined-user' (above) with a message to the session's room.
+socket.on('joined', (data) => {
+  let count = 0;
+  for (let i = 0; i < data.users.length; i++) {
+    count++;
+  }
+  let inRoom = (count === 1) ? "You are alone here." : `${count} people in chat.`;
+  sendMessage(`${data.username} has entered the room. ` + inRoom);
+});
+
+socket.on("console", (data) => {
+  console.log(data.msg);
+});
+
+socket.on('msg', (data) => {
+  // Call function to display username and message.
   sendMessage(`${data.username}: ${data.message}`);
 });
 
-socketio.on('disconnected', username => {
-  sendMessage(`${username}` + ' has left the chat.')
+socket.on('disconnected', (data) => {
+  let count = 0;
+  for (let i = 0; i < data.users.length; i++) {
+    count++;
+  }
+  let inRoom = (count === 1) ? "You are alone here." : `${count} people in chat.`;
+  sendMessage(`${data.username}` + ' has left the room. ' + inRoom);
 });
 
 form.addEventListener('submit', e => {
-  // clicking send will not reload page
+  // Clicking send will not reload page.
   e.preventDefault();
-  const message = input.value;
-  sendMessage(`${username}: ${message}`)
-  socketio.emit('share-msg', message)
-  // clears out input box after sending msg
+  let message = input.value;
+  socket.emit('share-msg', (message));
+  // Clears out input box after sending msg.
   input.value = '';
 });
 
-// pass in message and append in messageDiv
+// Pass in message and append in messageDiv.
 function sendMessage(message) {
   const msg = document.createElement('div');
   msg.innerText = message;

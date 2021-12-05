@@ -23,7 +23,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "socket.io": "^4.3.1",
+    "socket.io": "^4.4.0",
     "socket.io-client": "^4.3.2"
   },
   "devDependencies": {
@@ -48,7 +48,6 @@
     "webpack": "^5.59.1",
     "webpack-cli": "^4.9.1",
     "webpack-dev-middleware": "^5.2.1",
-    "webpack-dev-server": "^4.3.1",
-    "webpack-hot-middleware": "^2.25.1"
+    "webpack-dev-server": "^4.3.1"
   }
 }
