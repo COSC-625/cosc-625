@@ -8,9 +8,9 @@ export default {
   // We can exclude chunks from loading on specific pages using excludeChunks.
   entry: {
     // Styles and hot reloading chunk.
-    index: './client/src/index.js',
-    // Chat chunk.
-    chat:   './client/src/chatBundle.js',
+    index:  './client/src/index.js',
+    // Socket communications chunk.
+    client: './client/src/clientBundle.js',
     // mpGameLogic chunk.
     mpgame: './client/src/mpGame.js',
     // spGameLogic chunk.
@@ -28,7 +28,7 @@ export default {
       favicon: './favicon.png',
       // Base page is only styles and hot-reloading functionality.
       excludeChunks: [
-        'chat',
+        'client',
         'mpgame',
         'spgame'
       ]
@@ -53,8 +53,9 @@ export default {
       title: 'Single-Player Solitaire',
       filename: 'spGame.html',
       favicon: './favicon.png',
-      // SP Game excludes MP Game logic.
+      // SP Game excludes MP Game logic and Socket.io comms.
       excludeChunks: [
+        'client',
         'mpgame'
       ]
     }),

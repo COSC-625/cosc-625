@@ -10,7 +10,7 @@ export default {
     // Styles chunk.
     index:  './client/src/index.js',
     // Chat chunk.
-    chat:   './client/src/chatBundle.js',
+    client: './client/src/clientBundle.js',
     // mpGameLogic chunk.
     mpgame: './client/src/mpGame.js',
     // spGameLogic chunk.
@@ -27,7 +27,7 @@ export default {
       favicon: './images/favicon.png',
       // Base page is only styles.
       excludeChunks: [
-        'chat',
+        'client',
         'mpgame',
         'spgame'
       ]
@@ -54,6 +54,7 @@ export default {
       favicon: './images/favicon.png',
       // SP Game excludes MP Game logic.
       excludeChunks: [
+        'client',
         'mpgame'
       ]
     }),

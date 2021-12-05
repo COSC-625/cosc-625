@@ -88,3 +88,10 @@ function sendMessage(message) {
   msg.innerText = message;
   messageDiv.append(msg);
 }
+
+
+///////////////////////
+//    MP GAMEPLAY    //
+///////////////////////
+
+

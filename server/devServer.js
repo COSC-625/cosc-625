@@ -44,9 +44,9 @@ app.get('/mpGame', (req, res) => {
 });
 
 
-/////////////////////
-//    SOCKET.IO    //
-/////////////////////
+////////////////
+//    CHAT    //
+////////////////
 
 // Import in-memory storage functions.
 const { addUser,
@@ -132,7 +132,17 @@ io.on("connection", (socket) => {
 
 }); // End of io.on('connection').
 
-// Moved listen function to bottom.
+
+/////////////////////
+//     MP GAME     //
+/////////////////////
+
+
+
+
+
+
+// Start server by listening on designated port.
 server.listen(port, (err) => {
   if (err) {
     console.log(err);

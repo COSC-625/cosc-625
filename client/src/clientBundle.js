@@ -1,4 +1,4 @@
 ///////////////////
 //    IMPORTS    //
 ///////////////////
-import "./js/chat.js";
+import "./js/client.js";
