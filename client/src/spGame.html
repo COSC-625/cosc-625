@@ -22,8 +22,8 @@
         <span>0</span>
       </div>
 
-      <div class = "redeal">
-        <button type="submit" onClick="redealGame()" id="redeal">Redeal</button>
+      <div id="redeal">
+        <span class='btn btn--sm' onclick="refreshGame()">Redeal</span>
       </div>
 
       <div class="score" data-score="0">
@@ -38,7 +38,7 @@
 
         <div id="mpScore" class="mpScore" data-pile="mpScore">
           <ul></ul>
-        
+
           <div id = "cardsStock" class = "cardsStock">
             <label>Cards in Stock:</label>
             <span id="numCardStock">0</span>
@@ -328,5 +328,16 @@
       </div>
     </li>
   </ul><!-- /.templates -->
+
+  <script>
+    function refreshGame() {
+      var head = document.getElementsByTagName('head')[0];
+      var body = document.getElementsByTagName('body')[0];
+      var script = document.createElement('script');
+      script.src = 'spgame.js?cachebuster=' + new Date().getTime();
+
+      head.appendChild(script);
+    }
+  </script>
 </body>
 </html>

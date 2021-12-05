@@ -168,7 +168,7 @@ window.onresize = function (event) {
 
 //redeal button pressed
 function redealGame() {
-  if (confirm("Are you sure you want to redeal this game?")) {
+  //if (confirm("Are you sure you want to redeal this game?")) {
     //window.location.reload();
 
     // 1. CREATE DECK
@@ -187,7 +187,7 @@ function redealGame() {
 
     // 5. START GAMEPLAY
     play(table);
-  }
+  //}
 }
 
 // create deck
