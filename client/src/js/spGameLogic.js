@@ -11,6 +11,8 @@ Optional Features:
 
 */
 
+
+
 // 0. DECLARE VARS
 
 // document
@@ -165,6 +167,30 @@ window.onresize = function (event) {
 };
 
 // ### FUNCTIONS ###
+
+//redeal button pressed
+function redealGame() {
+  if (confirm("Are you sure you want to redeal this game?")) {
+    //window.location.reload();
+
+    // 1. CREATE DECK
+    deck = create(deck, suits);
+
+    // 2. SHUFFLE DECK
+    deck = shuffle(deck);
+
+    // 3. DEAL DECK
+    table = deal(deck, table);
+
+    // 4. RENDER TABLE
+    render(table, playedCards);
+
+    reset(table);
+
+    // 5. START GAMEPLAY
+    play(table);
+  }
+}
 
 // create deck
 function create(deck, suits) {

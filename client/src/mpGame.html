@@ -24,6 +24,11 @@
         <label>Moves:</label>
         <span>0</span>
       </div>
+
+      <div class = "redeal">
+        <button type="submit" onClick="redealGame()" id="redeal">Redeal</button>
+      </div>
+      
       <div class="score" data-score="0">
         <label>Score:</label>
         <span>0</span>
@@ -38,7 +43,7 @@
         <div id="mpScore" class="mpScore" data-pile="mpScore">
           <ul></ul>
           <table>
-          <th>Cards Played</th>
+          <th>Cards Played to Foundation</th>
             <tr><td>Your Score:</td><td id="yourCardsPlayed">0</td></tr>
             <tr><td>Their Score:</td><td id="theirCardsPlayed">0</td></tr>
           </table>
