@@ -136,6 +136,8 @@ var $waste = d.querySelector('#waste');
 var $fnd = d.querySelector('#fnd');
 var $tab = d.querySelector('#tab');
 var $autoWin = d.querySelector('#auto-win');
+var $gameOver = d.querySelector('#game-over');
+var $cardPiles = d.querySelector('#tab');
 
 // other global vars
 var clock = 0;
@@ -662,6 +664,7 @@ function select(event) {
       // if stock is clicked
       else if (pile === 'stock') {
         console.log('Status: Stock Pile Clicked');
+
         // if stock isn't empty
         if (table['stock'].length) {
 //if there are more than 6 cards in stock then flip 3
@@ -1140,10 +1143,21 @@ function checkForWin(table) {
     updateScore(getBonus());
     // throw confetti
     throwConfetti();
+    //show game over message
+    gameOver();
     // return true
     return true;
   }
   else return false;
+}
+
+//show game over message
+function gameOver() {
+  // show auto win button
+  $gameOver.style.display = 'block';
+
+  //hide the card piles
+  $cardPiles.style.display = 'none';
 }
 
 // check for auto win
@@ -1246,7 +1260,11 @@ function autoWinAnimation(table) {
       i--;
       if (i !== 0) animation_loop();
       // at the end lets celebrate!
-      else throwConfetti();
+      else {
+        throwConfetti();
+        //show game over message
+        gameOver();
+      }
     }, 100);
   };
   // run animation loop

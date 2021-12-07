@@ -130,6 +130,17 @@ body {
    padding: 1em;
    line-height: 1;
 }
+
+#game-over {
+   display: none;
+   position: absolute;
+   background: rgba(174, 248, 35, 0.527);
+   border-radius: 50%;
+   padding: 1em;
+   width: 100%;
+   text-align: center;
+}
+
 #table {
    opacity: 0;
    width: 100%;
