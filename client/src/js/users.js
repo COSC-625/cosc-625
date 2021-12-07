@@ -6,7 +6,7 @@ var rooms = [];
 /**
  * Adds a user to a given room, identified by roomID.
  */
-function addUser(roomID, userID, username) {
+function addUser(roomID, userID, username, sessionID) {
   // Iterate over rooms, add user to appropriate room if it exists.
   // Otherwise, create room storage and add user.
   let added = false;
@@ -14,7 +14,8 @@ function addUser(roomID, userID, username) {
     if (rooms[i][0] === roomID) {
       rooms[i][1].push({
         'userID': userID,
-        'username': username
+        'username': username,
+        'sessionID': sessionID
       });
       added = true;
     }
@@ -23,7 +24,7 @@ function addUser(roomID, userID, username) {
     // If room doesn't exist, create it and add user.
     createRoom(roomID);
     // Recursive call to add user to newly created room.
-    addUser(roomID, userID, username);
+    addUser(roomID, userID, username, sessionID);
   }
 }
 

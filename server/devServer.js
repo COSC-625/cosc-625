@@ -54,6 +54,9 @@ const { addUser,
         deleteRoom,
         GetUsers } = require('../client/src/js/users.js');
 
+        const { InMemorySessionStore } = require("../client/src/js/sessionStore.js");
+        const sessionStore = new InMemorySessionStore();
+
 // Create http server.
 const server = require('http').createServer(app);
 // Express instance passed into new socket.io instance.
@@ -63,21 +66,69 @@ const io = require('socket.io')(server, {
   }
 });
 
-// SOCKET CONNECTION ESTABLISHED FROM CLIENT.
-io.on("connection", (socket) => {
-  // When a user connects.
-  socket.on('joined-user', () => {
+
+io.use((socket, next) => {
+  const sessionID = socket.handshake.auth.sessionID;
+
+  if (sessionID) {
+    // Find if session exists.
+    const session = sessionStore.findSession(sessionID);
+    if (session) {
+      socket.sessionID = sessionID;
+      socket.userID = session.userID;
+      socket.username = session.username;
+      return next();
+    }
+  }
+  const username = socket.handshake.auth.username;
+  // If username doesn't exist, display error message.
+  if (!username) {
+    return next(new Error("Username does not exist."));
+  }
     // Update handshake object with socket ID and user list for that room.
     socket.handshake.auth.userID = socket.id;
     // Add user to in-memory storage.
     addUser(socket.handshake.auth.roomID,
             socket.handshake.auth.userID,
-            socket.handshake.auth.username);
+            socket.handshake.auth.username,
+            socket.handshake.auth.sessionID);
     // Populate user list.
     socket.handshake.auth.users = GetUsers(socket.handshake.auth.roomID);
 
+    next();
+});
+
+// SOCKET CONNECTION ESTABLISHED FROM CLIENT.
+io.on("connection", (socket) => {
+  // Persist session.
+  sessionStore.saveSession(socket.sessionID, {
+    userID: socket.userID,
+    username: socket.username,
+    connected: true,
+  });
+
+  socket.emit("session", {
+    sessionID: socket.sessionID,
+    userID: socket.userID,
+  });
+
+  // Connect socket to room.
+  socket.join(socket.handshake.auth.roomID);
+
+  // When a user connects.
+//  socket.on('joined-user', () => {
+    // Update handshake object with socket ID and user list for that room.
+//    socket.handshake.auth.userID = socket.id;
+    // Add user to in-memory storage.
+//    addUser(socket.handshake.auth.roomID,
+//            socket.handshake.auth.userID,
+//            socket.handshake.auth.username
+//            socket.handshake.auth.sessionID);
+    // Populate user list.
+//    socket.handshake.auth.users = GetUsers(socket.handshake.auth.roomID);
+
     // Connect socket to room.
-    socket.join(socket.handshake.auth.roomID);
+//    socket.join(socket.handshake.auth.roomID);
 
     // FOR TESTING DURING DEVELOPMENT.
     // Console log socket user details.
@@ -86,11 +137,8 @@ io.on("connection", (socket) => {
     // socket.emit('console', {msg: "userID: " + socket.handshake.auth.userID});
 
     // Emit joined message.
-    io.to(socket.handshake.auth.roomID).emit('joined', ({
-            username: socket.handshake.auth.username,
-            users: socket.handshake.auth.users
-          }));
-  });
+
+  //});
 
   // When client side sends share-msg, emit back message with username.
   socket.on('share-msg', msg => {
@@ -118,6 +166,7 @@ io.on("connection", (socket) => {
     }
 
   });
+});
 
   // FOR TESTING DURING DEVELOPMENT.
   // Console log data from socket room creation and users joining.
@@ -130,7 +179,7 @@ io.on("connection", (socket) => {
   //   socket.emit('console', {msg: message});
   // });
 
-}); // End of io.on('connection').
+//}); // End of io.on('connection').
 
 // Moved listen function to bottom.
 server.listen(port, (err) => {
