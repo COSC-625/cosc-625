@@ -21,6 +21,10 @@
       }
     }
   }
+  &--sm {
+    padding: 0.5em;
+    margin: 0.25em;
+  }
   &:hover {
     background-color: $green-light;
     color: $green-dark;

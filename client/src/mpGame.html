@@ -24,6 +24,11 @@
         <label>Moves:</label>
         <span>0</span>
       </div>
+
+      <div id="redeal">
+        <span class='btn btn--sm' onclick="if (confirm('Are you sure you want to redeal this game?')) {location.replace(location.href.split('#')[0])}">Redeal</span>
+      </div>
+
       <div class="score" data-score="0">
         <label>Score:</label>
         <span>0</span>
@@ -38,11 +43,11 @@
         <div id="mpScore" class="mpScore" data-pile="mpScore">
           <ul></ul>
           <table>
-          <th>Cards Played</th>
+          <th>Cards Played to Foundation</th>
             <tr><td>Your Score:</td><td id="yourCardsPlayed">0</td></tr>
             <tr><td>Their Score:</td><td id="theirCardsPlayed">0</td></tr>
           </table>
-          
+
           <br><br><br><br><br><br>
           <div id = "cardsStock" class = "cardsStock">
             <label>Cards in Stock:</label>

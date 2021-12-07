@@ -97,6 +97,14 @@ body {
    border-right: 4px solid #fff;
    border-left: 4px solid #fff;
 }
+
+#score .redeal button {
+   background: transparent;
+   border-color: #cc0000;
+   border-radius: 15%;
+   border-width: 3px;
+}
+
 [data-gameplay="active"] #score .timer button,
 [data-gameplay="paused"] #score .timer button {
    display: inline-block;
