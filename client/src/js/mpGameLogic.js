@@ -904,17 +904,9 @@ function makeMove() {
 
   // if pulling card from foundation pile
   else if (['spades', 'hearts', 'diamonds', 'clubs'].indexOf(source) >= 0) {
-    // only allow moves to tableau piles
-    if (isNaN(dest)) {
-      console.log('That move is not allowed');
-      return false;
-    }
-    // if moving card to tableau pile
-    else {
-      console.log('Moving To Tableau Pile');
-      move(table[source], table['tab'][dest], true);
-      updateScore(-15); // score -15 pts
-    }
+    //removing a card from the foundation is illegal in multiplayer games
+    console.log('Moving from foundations is not allowed in multiplayer');
+    return false;
   }
 
   // if pulling card from tableau pile
