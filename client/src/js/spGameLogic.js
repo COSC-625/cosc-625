@@ -137,7 +137,6 @@ var $fnd = d.querySelector('#fnd');
 var $tab = d.querySelector('#tab');
 var $autoWin = d.querySelector('#auto-win');
 var $gameOver = d.querySelector('#game-over');
-var $cardPiles = d.querySelector('#tab');
 
 // other global vars
 var clock = 0;
@@ -1157,7 +1156,7 @@ function gameOver() {
   $gameOver.style.display = 'block';
 
   //hide the card piles
-  $cardPiles.style.display = 'none';
+  $tab.style.display = 'none';
 }
 
 // check for auto win
