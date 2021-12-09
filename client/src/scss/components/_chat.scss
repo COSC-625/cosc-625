@@ -16,6 +16,8 @@
   left: 0;
   width: 400px;
   height: 600px;
+  // Having the same color of green as the background was hiding the border.
+  // Changed it to off-white to fix. Can adjust the color as needed.
   border: solid $off-white 2px;
   #chatbox {
     width: 100%;
