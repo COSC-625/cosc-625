@@ -11,22 +11,41 @@
 }
 
 #chatbox-in-game {
-  width: 355px;
-  height: 290px;
-  border: solid $green-dark 2px;
-  color: $off-white;
-  overflow: auto;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 10000;
-  pointer-events: none;
-  margin-top: 2em;
-  margin-left: 2em;
+  width: 400px;
+  height: 600px;
+  border: solid $off-white 2px;
+  #chatbox {
+    width: 100%;
+    height: 100%;
+    color: $off-white;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+  #form {
+    position: relative;
+    bottom: 0;
+  }
+  //width: 355px;
+  //height: 290px;
+  //border: solid $green-dark 2px;
+  //color: $off-white;
+  //overflow: auto;
+  //overflow-x: hidden;
+  // Flex is used to control side-by-side or columnar displays of multiple blocks.
+  // It applied to the lobby. It doesn't apply here.
+  //display: flex;
+  //flex-direction: column;
+  //align-items: flex-start;
+  //z-index: 10000;
+  // Removing pointer events prevents users from placing focus into the chat.
+  // As a result, they cannot enter messages.
+  //pointer-events: none;
+  //margin-top: 2em;
+  //margin-left: 2em;
+  //padding-top: 40px;
 }
 
 #form {
@@ -36,8 +55,8 @@
 }
 
 #form-in-game {
-  position: fixed;
-  bottom: 690px;
+  position: relative;
+  bottom: 40px;
   width: 385px;
 }
 
