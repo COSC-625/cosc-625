@@ -663,10 +663,9 @@ function select(event) {
       // if stock is clicked
       else if (pile === 'stock') {
         console.log('Status: Stock Pile Clicked');
-
         // if stock isn't empty
         if (table['stock'].length) {
-//if there are more than 6 cards in stock then flip 3
+          //if there are more than 6 cards in stock then flip 3
           if ((table['stock'].length + table['waste'].length) > 5) {
                 // move card from stock to waste
                 if (table['stock'].length >= 3) {
@@ -700,7 +699,7 @@ function select(event) {
                 move(table['stock'], table['waste']);
                 reset(table);
                 render(table, playedCards);
-              
+
                 // if empty, then bind click to stock pile element
                 if (table['stock'].length === 0) bindClick('#stock .reload-icon');
                 // count move
