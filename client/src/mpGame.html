@@ -6,6 +6,8 @@
   <link rel="stylesheet"
     href="https://bfa.github.io/solitaire-js/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 </head>
 
 <body>
@@ -26,7 +28,8 @@
       </div>
 
       <div id="redeal">
-        <span class='btn btn--sm' onclick="if (confirm('Are you sure you want to deal a new game?')) {location.replace(location.href.split('#')[0])}">Redeal</span>
+        <span class='btn btn--sm' onclick=redeal()>Redeal</span>
+        <!--<span class='btn btn--sm' onclick="if (confirm('Are you sure you want to deal a new game?')) {location.replace(location.href.split('#')[0])}">Redeal</span>-->
       </div>
 
       <div class="score" data-score="0">
@@ -380,6 +383,22 @@
   <div class='footer'>
     <h4>Game adapted from <a href='https://codepen.io/bfa/pen/ggGYeE' target='_blank'>Brent Alexander</a></h4>
   </div>
+
+  <script defer>
+    function redeal() {
+      Swal.fire({
+        titleText: "Are you sure you want to deal a new game?",
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "Cancel"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.replace(location.href.split('#')[0]);
+        }
+      });
+    }
+  </script>
 
 </body>
 
