@@ -10,10 +10,35 @@
   align-items: flex-start;
 }
 
+#chatbox-in-game {
+  width: 355px;
+  height: 290px;
+  border: solid $green-dark 2px;
+  color: $off-white;
+  overflow: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  pointer-events: none;
+  margin-top: 2em;
+  margin-left: 2em;
+}
+
 #form {
   position: fixed;
-  bottom: 160px;
+  bottom: 120px;
   width: 435px;
+}
+
+#form-in-game {
+  position: fixed;
+  bottom: 690px;
+  width: 385px;
 }
 
 #messagediv {

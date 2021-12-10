@@ -764,6 +764,14 @@ body {
       pointer-events: none;
       opacity: 0;
    }
+
+   .footer {
+      text-align: center;
+      padding: 1em;
+      position:fixed;
+      bottom: 0;
+      width: 100%;
+   }
    /* Disable Grammarly */
    grammarly-card {
        display: none;
