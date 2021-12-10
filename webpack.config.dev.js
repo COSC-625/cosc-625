@@ -97,9 +97,6 @@ export default {
       }
     ]
   },
-  experiments: {
-    topLevelAwait: true
-  },
   output: {
     path: resolve(__dirname, './client/dist'),
     publicPath: '/',
