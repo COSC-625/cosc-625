@@ -124,6 +124,8 @@ var $timerSpan = d.querySelector('#score .timer span');
 var $moveCount = d.querySelector('#score .move-count');
 var $moveCountSpan = d.querySelector('#score .move-count span');
 var $score = d.querySelector('#score .score');
+var $cardsPlayed = d.querySelector('.cardsPlayed');
+var $yourCardsPlayed = d.querySelector('#yourCardsPlayed');
 var $scoreSpan = d.querySelector('#score .score span');
 var $playPause = d.querySelector('#play-pause');
 var $table = d.querySelector('#table');
@@ -140,6 +142,7 @@ var clock = 0;
 var time = 0;
 var moves = 0;
 var score = 0;
+var cardsPlayed = 0;
 var bonus = 0;
 var lastEventTime = 0;
 var unplayedTabCards = [];
@@ -893,6 +896,9 @@ function makeMove() {
       console.log('Moving To Foundation Pile');
       move(table[source], table[dest], true);
       updateScore(10); // score 10 pts
+
+      //add one to number of cards played into the foundation
+      updateCardsPlayed();
     }
     // if moving card to tableau pile
     else {
@@ -916,6 +922,9 @@ function makeMove() {
       console.log('Moving To Foundation Pile');
       move(table['tab'][source], table[dest], true);
       updateScore(10); // score 10 pts
+
+      //add one to number of cards played into the foundation
+      updateCardsPlayed();
     }
     // if moving card to tableau pile
     else {
@@ -1108,6 +1117,17 @@ function updateScore(points) {
   // output to display
   $score.children[1].textContent = score;
   return score;
+}
+
+function updateCardsPlayed() {
+
+  cardsPlayed++;
+
+  //output the new cardsPlayed number
+  $yourCardsPlayed.textContent = cardsPlayed;
+
+  //return cardsPlayed valriable to be used glabaly
+  return cardsPlayed;
 }
 
 // calculate bonus points
