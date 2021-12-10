@@ -3,6 +3,7 @@
 /////////////////////
 
 import { io } from "socket.io-client";
+const Swal = require('sweetalert2');
 const url = 'http://localhost:'
 const port = 3001;
 const localhost = url + port;
@@ -17,13 +18,20 @@ const rid = new URLSearchParams(window.location.search).get('rid');
 //   CHAT    //
 ///////////////
 
-var username = '';
+var username = {};
 // Only prompt for a username on the lobby page.
 if (window.location.pathname.includes("lobby")) {
   // User must enter something, not leave it blank.
-  while (username === '') {
-    username = prompt('Please Enter a Name: ');
-  }
+  username = await Swal.fire({
+    titleText: "Who are you?",
+    input: 'text',
+    inputPlaceholder: 'Your username',
+    inputValidator: (value) => {
+      if (!value) {
+        return 'You need to enter a username.';
+      }
+    }
+  });
 }
 
 // Establish connection credentials to socket.io.
@@ -31,15 +39,16 @@ const socket = io(localhost, {
   autoConnect: false,
   auth: {
     roomID: rid,
-    username: username,
+    username: username ? username.value : '',
     userID: null,
     users: null
   }
 });
 
-if (username !== '') {
+if (username) {
   socket.connect();
 }
+
 // On connection, emit user details to server.
 socket.on('connect', () => {
   socket.emit('joined-user');
@@ -53,6 +62,14 @@ socket.on('joined', (data) => {
   }
   let inRoom = (count === 1) ? "You are alone here." : `${count} people in chat.`;
   sendMessage(`${data.username} has entered the room. ` + inRoom);
+});
+
+socket.on('getLocation', () => {
+  if (window.location.pathname.includes("lobby")) {
+    socket.emit('location', 'lobby');
+  } else {
+    socket.emit('location', 'game');
+  }
 });
 
 socket.on("console", (data) => {
