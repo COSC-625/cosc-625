@@ -135,7 +135,7 @@ var $stock = d.querySelector('#stock');
 var $waste = d.querySelector('#waste');
 var $fnd = d.querySelector('#fnd');
 var $tab = d.querySelector('#tab');
-var $autoWin = d.querySelector('#auto-win');
+var $gameOver = d.querySelector('#game-over');
 
 // other global vars
 var clock = 0;
@@ -1152,117 +1152,23 @@ function checkForWin(table) {
     updateScore(getBonus());
     // throw confetti
     throwConfetti();
+
+    //show game over message
+    gameOver();
+
     // return true
     return true;
   }
   else return false;
 }
 
-// check for auto win
-function checkForAutoWin(table) {
-  // if all tableau cards are played and stock is empty
-  if (parseInt($tab.dataset.unplayed) +
-    table['stock'].length +
-    table['waste'].length === 0) {
-    // show auto win button
-    $autoWin.style.display = 'block';
-    // bind click to auto win button
-    $autoWin.addEventListener('click', autoWin);
-  }
-  return;
-}
+//show game over message
+function gameOver() {
+  // show auto win button
+  $gameOver.style.display = 'block';
 
-// auto win
-function autoWin() {
-  console.log('Huzzah!');
-  // hide auto win button
-  $autoWin.style.display = 'none';
-  // unbind click to auto win button
-  $autoWin.removeEventListener('click', autoWin);
-  // unbind click events
-  unbindClick(
-    '#stock .card:first-child,' +
-    '#waste .card:first-child,' +
-    '#fnd .card:first-child,' +
-    '#fnd #spades.pile[data-empty="true"],' +
-    '#fnd #hearts.pile[data-empty="true"],' +
-    '#fnd #diamonds.pile[data-empty="true"],' +
-    '#fnd #clubs.pile[data-empty="true"],' +
-    '#tab .card[data-played="true"],' +
-    '#tab .pile[data-empty="true"]'
-  );
-  // unbind double click events
-  unbindClick(
-    '#waste .card:first-child' +
-    '#tab .card:last-child',
-    'double'
-  );
-  // reset table
-  reset(table);
-  render(table);
-  // animate cards to foundation piles
-  autoWinAnimation(table);
-  // stop timer
-  timer('stop');
-  // bonus points for time
-  updateScore(getBonus());
-}
-
-// auto win animation
-function autoWinAnimation(table) {
-  // set number of iterations
-  var i = parseInt($tab.dataset.played);
-  // create animation loop
-  function animation_loop() {
-    // get lowest ranking card
-    var bottomCards = []; // create array for the bottom cards
-    var els = d.querySelectorAll('#tab .card:last-child');
-    for (var e in els) { // loop through elements
-      e = els[e];
-      if (e.nodeType)
-        bottomCards.push(parseRankAsInt(e.dataset.rank));
-    }
-    // get the lowest rank from array of bottom cards
-    var lowestRank = Math.min.apply(Math, bottomCards);
-    // parse integer as rank
-    var rank = parseIntAsRank(lowestRank);
-    // get element with rank
-    var e = d.querySelector('#tab .card[data-rank="' + rank + '"]');
-
-    // setup move
-    // get suit of card
-    var suit = e.dataset.suit;
-    // create card array with rank and suit
-    var card = [rank, suit];
-    // get destination pile
-    var dest = suit + 's';
-
-    // make move
-    if (validateMove(card, dest)) {
-      // set source pile
-      var pile = e.parentElement.parentElement;
-      $table.dataset.source = pile.dataset.pile;
-      // set dest pile
-      $table.dataset.dest = dest;
-      // make move
-      makeMove();
-      reset(table);
-      render(table, playedCards);
-    } else {
-      console.log('Move is Invalid. Try again...');
-      reset(table);
-      render(table, playedCards);
-    }
-    // let's do it again in 100ms
-    setTimeout(function () {
-      i--;
-      if (i !== 0) animation_loop();
-      // at the end lets celebrate!
-      else throwConfetti();
-    }, 100);
-  };
-  // run animation loop
-  animation_loop();
+  //hide the card piles
+  $tab.style.display = 'none';
 }
 
 // throw confetti

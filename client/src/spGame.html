@@ -23,7 +23,7 @@
       </div>
 
       <div id="redeal">
-        <span class='btn btn--sm' onclick="if (confirm('Are you sure you want to redeal this game?')) {location.replace(location.href.split('#')[0])}">Redeal</span>
+        <span class='btn btn--sm' onclick="if (confirm('Are you sure you want to deal a new game?')) {location.replace(location.href.split('#')[0])}">Redeal</span>
       </div>
 
       <div class="score" data-score="0">
@@ -102,6 +102,13 @@
             <ul></ul>
           </li>
         </ul>
+
+        <div id="game-over">
+          <h1>🥳 Congratulations on your win! 🥳</h1>
+          <button class='btn btn--lg' id="new-deal" onClick="location.replace(location.href.split('#')[0])">Deal a new game</button>
+          <button class='btn btn--lg' id="menu" onClick="location.href = 'index.html'">Return to main menu</button>
+        </div>
+
       </div>
 
     </div>
