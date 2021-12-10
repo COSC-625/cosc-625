@@ -103,20 +103,33 @@ io.on("connection", (socket) => {
 
   // On Disconnect.
   socket.on("disconnect", () => {
-    // Remove user from in-memory storage.
-    deleteUser(socket.handshake.auth.roomID, socket.handshake.auth.userID);
-    let users = GetUsers(socket.handshake.auth.roomID);
-    if (users.length === 0) {
-      // Delete room if all users are disconnected.
-      deleteRoom(socket.handshake.auth.roomID);
-    } else {
+    let loc = '';
+    io.to(socket.handshake.auth.roomID).emit('getLocation');
+    socket.on('location', loc => {
+      loc = loc;
+    });
+    if (loc == 'lobby') {
+      // If we're exiting from the lobby, maintain storage of user data.
       // Notify other users of disconnection.
       io.to(socket.handshake.auth.roomID).emit("disconnected", ({
             username: socket.handshake.auth.username,
             users: users
           }));
+    } else {
+      // If the user exits from the game, delete them from storage.
+      deleteUser(socket.handshake.auth.roomID, socket.handshake.auth.userID);
+      let users = GetUsers(socket.handshake.auth.roomID);
+      if (users.length === 0) {
+        // Delete room if all users are disconnected.
+        deleteRoom(socket.handshake.auth.roomID);
+      } else {
+        // Notify other users of disconnection.
+        io.to(socket.handshake.auth.roomID).emit("disconnected", ({
+              username: socket.handshake.auth.username,
+              users: users
+            }));
+      }
     }
-
   });
 
   // FOR TESTING DURING DEVELOPMENT.
