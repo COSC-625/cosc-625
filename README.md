@@ -4,13 +4,13 @@
 
 In order to run this application locally, you will need to download a few things:
 
-1. Node (version > 12)
+1. Node (version 14.18.1)
 It is recommended to use NVM (Node Version Manager) to download Node and NPM locally: https://github.com/nvm-sh/nvm.
 
-The version of Node used to create this repo's initial commit was `v.14.18.1`.
+The version of Node used to create this repo's initial commit was `v.14.18.1`. Webpack 5 is incompatible with newer versions of Node.js, so make sure you are using a version between v.12 and v.14.
 
 2. Several NPM Packages to Install Globally on Your Machine:
-`npm install -g sass n eslint`
+`npm install -g sass eslint`
 
 ## Downloading the Game Files
 Once the above have been installed, you can initialize this project by pulling down the code from this repo and running the following command from the project's root: `npm install`
