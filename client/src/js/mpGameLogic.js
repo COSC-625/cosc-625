@@ -1152,7 +1152,7 @@ function checkForWin(table) {
     // bonus points for time
     updateScore(getBonus());
     // throw confetti
-    throwConfetti();
+    //throwConfetti();
 
     //show game over message
     gameOver();
@@ -1260,7 +1260,7 @@ function autoWinAnimation(table) {
         i--;
         if (i !== 0) animation_loop();
         // at the end let's celebrate
-        else throwConfetti();
+        else gameOver();
       }, 100);
     };
     // run animation loop

@@ -20,7 +20,7 @@ const rid = new URLSearchParams(window.location.search).get('rid');
 
 var username = {};
 // Only prompt for a username on the lobby page.
-if (window.location.pathname.includes("lobby")) {
+if (window.location.pathname.includes("lobby") || window.location.pathname.includes("mpGame")) {
   // User must enter something, not leave it blank.
   username = await Swal.fire({
     titleText: "Who are you?",
