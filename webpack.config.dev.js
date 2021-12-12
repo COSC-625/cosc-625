@@ -7,7 +7,7 @@ export default {
   // Entry defines the "chunks" that get bundled into every "output" page.
   // We can exclude chunks from loading on specific pages using excludeChunks.
   entry: {
-    // Styles and hot reloading chunk.
+    // Styles chunk.
     index: './client/src/index.js',
     // Chat chunk.
     chat:   './client/src/chatBundle.js',
@@ -26,7 +26,7 @@ export default {
       title: 'Home',
       inject: 'body',
       favicon: './favicon.png',
-      // Base page is only styles and hot-reloading functionality.
+      // Base page is only styles, no functionality.
       excludeChunks: [
         'chat',
         'mpgame',

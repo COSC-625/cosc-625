@@ -14,22 +14,20 @@ const url = "http://localhost:";
 const port = 3001 || process.env.PORT;
 const localhost = url + port;
 
-// Hot reloading for real-time updates during development.
+// Base webpack configs.
 import webpack from 'webpack';
 import config from '../webpack.config.dev.js';
 const compiler = webpack(config);
 
+// Setup for dev server.
 app.use(require("webpack-dev-middleware")(compiler, {
   publicPath: config.output.publicPath
 }));
-
 app.use(cors());
 app.use(compression());
-
-// Manually refresh the page if you make edits to .html files.
 app.use(express.static('./client/dist'));
 
-// Get routes to individual pages.
+// Get routes to individual HTML pages.
 app.get('/', (req, res) => {
   res.sendFile(join(__dirname, './client/dist/index.html'));
 });
@@ -57,6 +55,7 @@ const { addUser,
 // Create http server.
 const server = require('http').createServer(app);
 // Express instance passed into new socket.io instance.
+// Define CORS to allow any connection.
 const io = require('socket.io')(server, {
   cors: {
     origin: "*"
@@ -111,6 +110,7 @@ io.on("connection", (socket) => {
     if (loc == 'lobby') {
       // If we're exiting from the lobby, maintain storage of user data.
       // Notify other users of disconnection.
+      // TODO: Get persistent user storage to function. This does not work as we want yet.
       io.to(socket.handshake.auth.roomID).emit("disconnected", ({
             username: socket.handshake.auth.username,
             users: users
@@ -145,12 +145,12 @@ io.on("connection", (socket) => {
 
 }); // End of io.on('connection').
 
-// Moved listen function to bottom.
+// Instantiate server, listening on the defined port.
 server.listen(port, (err) => {
   if (err) {
     console.log(err);
   } else {
-    // Open browser with running application.
+    // Open default browser with running application.
     open(localhost);
   }
 });
