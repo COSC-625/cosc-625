@@ -55,6 +55,7 @@ export default {
       favicon: './favicon.png',
       // SP Game excludes MP Game logic.
       excludeChunks: [
+        'chat',
         'mpgame'
       ]
     }),
